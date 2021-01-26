@@ -1,0 +1,12 @@
+{
+    "version": 0,
+    "require": {
+        "cockpit": "120"
+    },
+    "tools": {
+       "mytool": {
+          "label": "Iptables UI",
+          "path": "iptablesui.html"
+       }
+    }
+  }

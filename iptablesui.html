@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title translate="yes">Kernel </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../base1/patternfly.css">
+
+
+
+  
+
+</head> 
+
+
+
+
+<body>
+    
+    
+    <h3>Active Rules</h3>
+
+    <div id="rules">
+    
+        <h4>Filter</h4>
+        <table id="filter-rules-table" border="1px">
+            <tr>
+                <th>Pacotes</th>
+                <th>Bytes</th>
+                <th>Ação</th>
+                <th>Protocolo</th>
+                <th>Opções</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Origem</th>
+                <th>Destino</th>
+            </tr>       
+        </table>
+    </div>
+
+    <div id="rules">
+       
+        <h4>NAT</h4>
+        <table id="nat-rules-table" border="1px">
+            <tr>
+                <th>Pacotes</th>
+                <th>Bytes</th>
+                <th>Ação</th>
+                <th>Protocolo</th>
+                <th>Opções</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Origem</th>
+                <th>Destino</th>
+            </tr>       
+        </table>
+
+    </div>
+    
+    <div id="app">
+        <div class="container-fluid">
+       
+            <form class="ct-form">
+            
+              <label class="control-label">status kdump</label>
+            
+            <div role="group">
+                
+                <label class="onoff-ct">
+                    <input type="checkbox">
+                    <span class="switch-toggle"></span>
+                </label>
+            
+                <button role="link" class="popover-ct-kdump link-button">
+                    <span>O serviço tem um erro</span>
+                    <span class="popover-ct-kdump fa fa-lg fa-info-circle" 
+                    aria-describedby="tip-service"> </span>
+                </button>
+
+            </div>
+            <div>
+                <label class="control-label">Memória reservada</label>
+                <span>Nenhum </span>
+                <label class="control-label">Local de despejo de travamento</label>
+                <span>
+                    <button class="link-button" id="kdump-change-target">localmente em /var/crash</button>
+                </span>
+            </div>
+
+                    <div role="group">
+                    <button aria-describedby="tip-test" aria-disabled="true" 
+                    class="pf-c-button pf-m-secondary pf-m-disabled" disabled="" type="button" data-ouia-component-type="PF4/Button" data-ouia-safe="true" data-ouia-component-id="12">Configuração Teste</button>
+                    <button class="popover-ct-kdump link-button">
+                        <span class="fa fa-lg fa-info-circle" aria-describedby="tip-test-info"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../base1/jquery.min.js"></script>
+    <script src="../base1/cockpit.min.js"></script>
+    <script type="text/javascript" src="iptablesui.js"></script>
+
+    <script type="text/javascript">
+        alert("js é uma merda")
+    </script>
+
+</body>
+
+</html>
+
+<!-- <html>
+<head>
+    <title>Pinger</title>
+    <meta charset="utf-8">
+    <link href="../base1/cockpit.min.css" type="text/css" rel="stylesheet">
+    <script src="../base1/cockpit.min.js"></script>
+</head>
+<body class="pf-m-redhat-font vsc-initialized">
+    <div class="pf-c-page">
+         <main class="pf-c-page__main" tabindex="-1">
+             <section class="pf-c-page__main-section pf-m-light">
+                 <table class="form-table-ct">
+                     <tr>
+                         <td><label class="control-label" for="address">Address</label></td>
+                         <td><input class="form-control" id="address" value="8.8.8.8"></td>
+                     </tr>
+                     
+                     <tr>
+                         <td><button class="pf-c-button pf-m-primary" id="ping">Ping</button></td>
+                         <td><span id="result"></span></td>
+                     </tr>
+                 </table>
+                 <pre id="output"></pre>
+             </section>
+         </main>
+     </div>
+</body>
+</html>
+-->
