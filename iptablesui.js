@@ -1,3 +1,22 @@
+function fillEmptyTable(table){
+    //Accessa a tag html
+    tableRow = document.getElementById(table + "-rules-table");
+    
+    tr = document.createElement("tr");
+   
+    //Insere o conteudo da colunas na linha
+    tr.innerHTML =
+           
+        `
+            <tr>
+               <td colspan="9">No active rules</td>
+            </tr>
+        `
+    
+    tableRow.appendChild(tr);
+    
+}
+
 
 function splitRule(rule, table){
     
@@ -46,6 +65,8 @@ function fillRules(data, table)
 
     text = data.split("\n");
 
+    hasContent = false;
+    
     text.forEach(element => {
         
         
@@ -58,10 +79,16 @@ function fillRules(data, table)
         if(!element)
             return;
 
+        hasContent = true;
         splitRule(element, table)
         console.log(element);
 
     });
+
+    if(!hasContent){
+        fillEmptyTable(table)
+    }
+
 }
 
 

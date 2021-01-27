@@ -6,7 +6,7 @@
     "tools": {
        "mytool": {
           "label": "Iptables UI",
-          "path": "iptablesui.html"
+          "path": "index.html"
        }
     }
   }

@@ -8,7 +8,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="../base1/patternfly.css">
+    <link rel="stylesheet" href="index.css">
+
+    <link rel="stylesheet" href="network.css">
 
 
 
@@ -26,20 +28,23 @@
 
     <div id="rules">
     
-        <h4>Filter</h4>
+        <div class="panel-heading">
+        <h2 class="panel-tile">Filter</h2>
+        </div>
         <table id="filter-rules-table" border="1px">
             <tr>
-                <th>Pacotes</th>
+                <th>Packets</th>
                 <th>Bytes</th>
-                <th>Ação</th>
-                <th>Protocolo</th>
-                <th>Opções</th>
-                <th>Entrada</th>
-                <th>Saída</th>
-                <th>Origem</th>
-                <th>Destino</th>
+                <th>Action</th>
+                <th>Protocol</th>
+                <th>Options</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Source</th>
+                <th>Destination</th>
             </tr>       
         </table>
+        
     </div>
 
     <div id="rules">
@@ -47,18 +52,17 @@
         <h4>NAT</h4>
         <table id="nat-rules-table" border="1px">
             <tr>
-                <th>Pacotes</th>
+                <th>Packets</th>
                 <th>Bytes</th>
-                <th>Ação</th>
-                <th>Protocolo</th>
-                <th>Opções</th>
-                <th>Entrada</th>
-                <th>Saída</th>
-                <th>Origem</th>
-                <th>Destino</th>
-            </tr>       
-        </table>
-
+                <th>Action</th>
+                <th>Protocol</th>
+                <th>Options</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Source</th>
+                <th>Destination</th>
+            </tr>
+        </table>       
     </div>
     
     <div id="app">
