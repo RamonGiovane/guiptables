@@ -14,105 +14,213 @@
 
 
 
-  
 
-</head> 
+
+</head>
 
 
 
 
 <body>
-    
-    
+
+
     <h3>Active Rules</h3>
 
-    <div id="rules">
-    
+    <!-- <div class="panel panel-default" id="rules">
+
         <div class="panel-heading">
-        <h2 class="panel-tile">Filter</h2>
-        </div>
-        <table id="filter-rules-table" border="1px">
-            <tr>
-                <th>Packets</th>
-                <th>Bytes</th>
-                <th>Action</th>
-                <th>Protocol</th>
-                <th>Options</th>
-                <th>Input</th>
-                <th>Output</th>
-                <th>Source</th>
-                <th>Destination</th>
-            </tr>       
-        </table>
-        
-    </div>
 
-    <div id="rules">
-       
-        <h4>NAT</h4>
-        <table id="nat-rules-table" border="1px">
-            <tr>
-                <th>Packets</th>
-                <th>Bytes</th>
-                <th>Action</th>
-                <th>Protocol</th>
-                <th>Options</th>
-                <th>Input</th>
-                <th>Output</th>
-                <th>Source</th>
-                <th>Destination</th>
-            </tr>
-        </table>       
-    </div>
-    
-    <div id="app">
-        <div class="container-fluid">
-       
-            <form class="ct-form">
-            
-              <label class="control-label">status kdump</label>
-            
-            <div role="group">
-                
-                <label class="onoff-ct">
-                    <input type="checkbox">
-                    <span class="switch-toggle"></span>
-                </label>
-            
-                <button role="link" class="popover-ct-kdump link-button">
-                    <span>O serviço tem um erro</span>
-                    <span class="popover-ct-kdump fa fa-lg fa-info-circle" 
-                    aria-describedby="tip-service"> </span>
+            <h4 class="panel-tile">
+                Filter
+            </h4>
+
+            <div class="panel-actions">
+                <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">
+                    Adicionar Vínculo
                 </button>
+            </div>
 
+            <div class="panel-body" style="display: block !important;">
+                <table class="table table-hover" border="1px">
+                    <thead>
+                        <tr>
+                            <th>Packets</th>
+                            <th>Bytes</th>
+                            <th>Action</th>
+                            <th>Protocol</th>
+                            <th>Options</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filter-rules-table">
+
+                    </tbody>
+                </table>
             </div>
-            <div>
-                <label class="control-label">Memória reservada</label>
-                <span>Nenhum </span>
-                <label class="control-label">Local de despejo de travamento</label>
-                <span>
-                    <button class="link-button" id="kdump-change-target">localmente em /var/crash</button>
-                </span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="rules">
+
+        <div class="panel-heading">
+            <h4 class="panel-tile">NAT</h4>
+            <div class="panel-actions"></div>
+            <div class="panel-body">
+                <div class="panel-body" style="display: block !important;">
+                    <table class="table table-hover" border="1px">
+                        <thead>
+                            <tr>
+                                <th>Packets</th>
+                                <th>Bytes</th>
+                                <th>Action</th>
+                                <th>Protocol</th>
+                                <th>Options</th>
+                                <th>Input</th>
+                                <th>Output</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nat-rules-table"></tbody>
+
+                    </table>
+                </div>
             </div>
+        </div> -->
+
+        <div class="panel panel-default" id="networking-interfaces">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Filter</h2>
+                    <div class="panel-actions">
+                        <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">Adicionar
+                            Vínculo</button>
+                        <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
+                            style="display: inline-block;" data-test-stable="yes">Adicionar Equipe</button>
+                        <button id="networking-add-bridge"
+                            class="pf-c-button pf-m-secondary network-privileged">Adicionar Ponte</button>
+                        <button id="networking-add-vlan" class="pf-c-button pf-m-secondary network-privileged">Adicionar
+                            VLAN</button>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Packets</th>
+                        <th>Bytes</th>
+                        <th>Action</th>
+                        <th>Protocol</th>
+                        <th>Options</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th></th>
+                    </thead>
+                    <tbody id="filter-rules-table">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel panel-default" id="networking-interfaces">
+                <div class="panel-heading">
+                    <h2 class="panel-title">NAT</h2>
+                    <div class="panel-actions">
+                        <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">Adicionar
+                            Vínculo</button>
+                        <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
+                            style="display: inline-block;" data-test-stable="yes">Adicionar Equipe</button>
+                        <button id="networking-add-bridge"
+                            class="pf-c-button pf-m-secondary network-privileged">Adicionar Ponte</button>
+                        <button id="networking-add-vlan" class="pf-c-button pf-m-secondary network-privileged">Adicionar
+                            VLAN</button>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Packets</th>
+                        <th>Bytes</th>
+                        <th>Action</th>
+                        <th>Protocol</th>
+                        <th>Options</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                    </thead>
+                    <tbody id="nat-rules-table">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel panel-default" id="networking-unmanaged-interfaces" hidden="">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Interfaces Não Gerenciadas</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Endereço IP</th>
+                            <th class="networking-speed">Enviando</th>
+                            <th class="networking-speed">Recebendo</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>networking-unmanaged-interfaces
+
+        <div id="app">
+            <div class="container-fluid">
+
+                <form class="ct-form">
+
+                    <label class="control-label">status kdump</label>
 
                     <div role="group">
-                    <button aria-describedby="tip-test" aria-disabled="true" 
-                    class="pf-c-button pf-m-secondary pf-m-disabled" disabled="" type="button" data-ouia-component-type="PF4/Button" data-ouia-safe="true" data-ouia-component-id="12">Configuração Teste</button>
-                    <button class="popover-ct-kdump link-button">
-                        <span class="fa fa-lg fa-info-circle" aria-describedby="tip-test-info"></span>
-                    </button>
-                </div>
-            </form>
+
+                        <label class="onoff-ct">
+                            <input type="checkbox">
+                            <span class="switch-toggle"></span>
+                        </label>
+
+                        <button role="link" class="popover-ct-kdump link-button">
+                            <span>O serviço tem um erro</span>
+                            <span class="popover-ct-kdump fa fa-lg fa-info-circle" aria-describedby="tip-service">
+                            </span>
+                        </button>
+
+                    </div>
+                    <div>
+                        <label class="control-label">Memória reservada</label>
+                        <span>Nenhum </span>
+                        <label class="control-label">Local de despejo de travamento</label>
+                        <span>
+                            <button class="link-button" id="kdump-change-target">localmente em /var/crash</button>
+                        </span>
+                    </div>
+
+                    <div role="group">
+                        <button aria-describedby="tip-test" aria-disabled="true"
+                            class="pf-c-button pf-m-secondary pf-m-disabled" disabled="" type="button"
+                            data-ouia-component-type="PF4/Button" data-ouia-safe="true"
+                            data-ouia-component-id="12">Configuração Teste</button>
+                        <button class="popover-ct-kdump link-button">
+                            <span class="fa fa-lg fa-info-circle" aria-describedby="tip-test-info"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <script src="../base1/jquery.min.js"></script>
-    <script src="../base1/cockpit.min.js"></script>
-    <script type="text/javascript" src="iptablesui.js"></script>
+        <script src="../base1/jquery.min.js"></script>
+        <script src="../base1/cockpit.min.js"></script>
+        <script type="text/javascript" src="iptablesui.js"></script>
 
-    <script type="text/javascript">
-        alert("js é uma merda")
-    </script>
+        <script type="text/javascript">
+            alert("js é uma merda")
+        </script>
 
 </body>
 
