@@ -3,18 +3,22 @@
  * With this command is possible to fetch general info of the 
  * rules set on each iptables layer.
  */
-export function addRulesInTable(chainData){
+export function addRulesInTable(){
     
     cockpit.spawn(["/usr/sbin/iptables", "-t", "nat", "-L", "-v"])
-    .then(res=>  processResponse(res, "nat", chainData.natChains))
+    .then(res=>  processResponse(res, "nat"))
     .catch(err=> alert(err))
    
     cockpit.spawn(["/usr/sbin/iptables", "-t", "filter", "-L", "-v"])
-    .then(res=>  processResponse(res, "filter", chainData.filterChains))
+    .then(res=>  processResponse(res, "filter"))
     .catch(err=> alert(err))
 }
 
-function processResponse(data, table, chainNames)
+function splitChainName(element){
+    return element.split(" ")[1];
+}
+
+function processResponse(data, table)
 {
 
     let text = data.split("\n");
@@ -23,12 +27,17 @@ function processResponse(data, table, chainNames)
     
     let i = 0;
     
+    let chainName;
+
     text.forEach(element => {
         
         
 
-        if(element.startsWith("Chain"))
+        if(element.startsWith("Chain")){
+            chainName = splitChainName(element);
             return;
+        }
+            
         if(element.startsWith(" pkts"))
             return;
 
@@ -37,7 +46,7 @@ function processResponse(data, table, chainNames)
 
         hasContent = true;
         
-        splitAndSetRule(element, table, chainNames[i])
+        splitAndSetRule(element, table, chainName, i+1)
         
         i++;
 
@@ -51,7 +60,7 @@ function processResponse(data, table, chainNames)
 
 }
 
-function splitAndSetRule(rule, table, chainName){
+function splitAndSetRule(rule, table, chainName, ruleNumber){
     
     //Uma linha com regras se torna um array
     let text = rule.trim().split(/[ ,]+/);
@@ -59,7 +68,7 @@ function splitAndSetRule(rule, table, chainName){
     //Accessa a tag html
     let tableRow = document.getElementById(table + "-rules-table");
 
-    let rows = "";
+    let rows = `<td>${ruleNumber}</td>`;
     
     let i = 0;
     
@@ -100,6 +109,7 @@ function splitAndSetRule(rule, table, chainName){
         `
             <tr>
                 ${rows}
+                <td><i class="fa fa-trash" aria-hidden="true"></i></td>
             </tr>
         `
     

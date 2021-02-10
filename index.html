@@ -7,10 +7,9 @@
     <title translate="yes">Kernel </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="index.css">
-
+    
     <link rel="stylesheet" href="network.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
 
 
@@ -26,87 +25,22 @@
 
     <h3>Active Rules</h3>
 
-    <!-- <div class="panel panel-default" id="rules">
-
-        <div class="panel-heading">
-
-            <h4 class="panel-tile">
-                Filter
-            </h4>
-
-            <div class="panel-actions">
-                <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">
-                    Adicionar Vínculo
-                </button>
-            </div>
-
-            <div class="panel-body" style="display: block !important;">
-                <table class="table table-hover" border="1px">
-                    <thead>
-                        <tr>
-                            <th>Packets</th>
-                            <th>Bytes</th>
-                            <th>Action</th>
-                            <th>Protocol</th>
-                            <th>Options</th>
-                            <th>Input</th>
-                            <th>Output</th>
-                            <th>Source</th>
-                            <th>Destination</th>
-                        </tr>
-                    </thead>
-                    <tbody id="filter-rules-table">
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel panel-default" id="rules">
-
-        <div class="panel-heading">
-            <h4 class="panel-tile">NAT</h4>
-            <div class="panel-actions"></div>
-            <div class="panel-body">
-                <div class="panel-body" style="display: block !important;">
-                    <table class="table table-hover" border="1px">
-                        <thead>
-                            <tr>
-                                <th>Packets</th>
-                                <th>Bytes</th>
-                                <th>Action</th>
-                                <th>Protocol</th>
-                                <th>Options</th>
-                                <th>Input</th>
-                                <th>Output</th>
-                                <th>Source</th>
-                                <th>Destination</th>
-                            </tr>
-                        </thead>
-                        <tbody id="nat-rules-table"></tbody>
-
-                    </table>
-                </div>
-            </div>
-        </div> -->
 
         <div class="panel panel-default" id="networking-interfaces">
                 <div class="panel-heading">
                     <h2 class="panel-title">Filter</h2>
                     <div class="panel-actions">
-                        <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">Adicionar
-                            Vínculo</button>
                         <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
-                            style="display: inline-block;" data-test-stable="yes">Adicionar Equipe</button>
-                        <button id="networking-add-bridge"
-                            class="pf-c-button pf-m-secondary network-privileged">Adicionar Ponte</button>
-                        <button id="networking-add-vlan" class="pf-c-button pf-m-secondary network-privileged">Adicionar
-                            VLAN</button>
+                            style="display: inline-block;" data-test-stable="yes">Save Changes</button>
+                        
+                        <button id="networking-add-team" class="pf-c-button pf-m-danger network-privileged"
+                            style="display: inline-block;" data-test-stable="yes">Flush Table</button>
+                       
                     </div>
                 </div>
-                <table class="table table-hover">
+                <table id="table" class="table table-hover">
                     <thead>
+                        <th>#</th>
                         <th>Packets</th>
                         <th>Bytes</th>
                         <th>Chain</th>
@@ -117,6 +51,7 @@
                         <th>Output</th>
                         <th>Source</th>
                         <th>Destination</th>
+                        <th>X</th>
                     </thead>
                     <tbody id="filter-rules-table">
                     </tbody>
@@ -127,18 +62,18 @@
                 <div class="panel-heading">
                     <h2 class="panel-title">NAT</h2>
                     <div class="panel-actions">
-                        <button id="networking-add-bond" class="pf-c-button pf-m-secondary network-privileged">Adicionar
-                            Vínculo</button>
-                        <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
-                            style="display: inline-block;" data-test-stable="yes">Adicionar Equipe</button>
-                        <button id="networking-add-bridge"
-                            class="pf-c-button pf-m-secondary network-privileged">Adicionar Ponte</button>
-                        <button id="networking-add-vlan" class="pf-c-button pf-m-secondary network-privileged">Adicionar
-                            VLAN</button>
+                        <div class="panel-actions">
+                            <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
+                                style="display: inline-block;" data-test-stable="yes">Save Changes</button>
+                            
+                            <button id="networking-add-team" class="pf-c-button pf-m-danger network-privileged"
+                                style="display: inline-block;" data-test-stable="yes">Flush Table</button>
+                        </div>
                     </div>
                 </div>
                 <table class="table table-hover">
                     <thead>
+                        <th></th>
                         <th>Packets</th>
                         <th>Bytes</th>
                         <th>Chain</th>
@@ -149,6 +84,7 @@
                         <th>Output</th>
                         <th>Source</th>
                         <th>Destination</th>
+                        <th></th>
                     </thead>
                     <tbody id="nat-rules-table">
                     </tbody>
@@ -218,6 +154,7 @@
         <script src="../base1/jquery.min.js"></script>
         <script src="../base1/cockpit.min.js"></script>
         <script type="module" src="./js/iptablesui.js"></script>
+        <script type="module" src="./js/table-sorter.js"></script>
 
 </body>
 
