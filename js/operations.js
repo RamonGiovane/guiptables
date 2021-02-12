@@ -6,29 +6,39 @@ export default class RuleData{
 }
 
 export function flush(table){
-    cockpit.spawn(["/usr/sbin/iptables", "-t", table, "-F"])
+    cockpit.spawn(["iptables", "-t", table, "-F"])
     .then(res=>  alert("All rows deleted on table " + table))
     .catch(err=> alert(err))
 }
 
 export function getRuleIndex(table, chain, ruleNumber){
-    let arr = filterTableByChain(table, chain);
     
-    return arr.findIndex(element => element.split(" ")[0] == ruleNumber);
+    let arr = filterTableByChain(table, chain);
 
+    let index = arr.findIndex(element => element.cells[0].textContent == ruleNumber);
+    
+    return index < 0 ? index : index + 1; 
 }
 
 export function deleteRule(ruleData){
 
+    if(!ruleData || parseInt(ruleData.ruleIndexInChain) <=  0)
+        alert("Error: Rule not found (rule index is invalid).");
 
-   
-  
-    cockpit.spawn(["/usr/sbin/iptables", "-t", ruleData.ruleTable,
+    cockpit.spawn(["iptables", "-t", ruleData.ruleTable,
          "-D", ruleData.ruleChain, ruleData.ruleIndexInChain])
-    .then(res=>  alert("Rule deleted on " + ruleData.table))
-    .catch(err=> alert(err))
+    .then(res=>  alert("Rule deleted on " + ruleData.ruleTable))
+    .catch(err=> alert("Error: Rule not found (rule may be deleted already).\nDetails: " + err))
 
+}
 
+export function readFile(fileName){
+    let response;
+    cockpit.spawn(["cat", fileName])
+    .then(res=>  response = res)
+    .catch(err=> response = err)
+
+    return response;
 }
 
 

@@ -16,19 +16,9 @@ function registerEventListeners(){
    
 }
 
-
-
-
-
-
-
-
-
 function start(){
 
-    addRulesInTable();
-
-  
+    addRulesInTable();  
 }
 
 

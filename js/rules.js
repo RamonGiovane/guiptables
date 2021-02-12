@@ -5,20 +5,34 @@ import * as operations from './operations.js'
  * With this command is possible to fetch general info of the 
  * rules set on each iptables layer.
  */
-
-
  export function addRulesInTable(){
     
-    
-    
-    cockpit.spawn(["/usr/sbin/iptables", "-t", "nat", "-n", "-L", "-v"])
-    .then(res=>  processResponse(res, "nat"))
+    loadTableRules("nat");
+
+    loadTableRules("filter");
+}
+
+function loadTableRules(table){
+    cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
+    .then(res=>  processResponse(res, table))
     .catch(err=> alert(err))
    
-    cockpit.spawn(["/usr/sbin/iptables", "-t", "filter", "-n", "-L", "-v"])
-    .then(res=>  processResponse(res, "filter"))
-    .catch(err=> alert(err))
+}
 
+function reloadTableRules(table){
+
+    //Destroy rules
+    let rules = document.getElementById(table + "-rules-table");
+  
+    
+    let children = rules.childNodes;
+    
+    debugger
+    for(let i = children.length -1; i >=0; i--)
+        children[i].remove();
+ 
+    
+    loadTableRules(table);
 }
 
 function splitChainName(element){
@@ -124,7 +138,8 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
     //Cria a tag de linha propriamente dita
     let tr = document.createElement("tr");
 
-    
+    tr.className = `row-${table}-${chainName}`
+
     //Insere o conteudo da colunas na linha
     tr.innerHTML =
            
@@ -160,6 +175,7 @@ function deleteButtonListener(id){
     
     let rule = extractRuleFromId(id);
     operations.deleteRule(rule);
+    reloadTableRules(rule.ruleTable);
 }
 
 function extractRuleFromId(id){
@@ -168,11 +184,11 @@ function extractRuleFromId(id){
 
     //delete-${table}-${chainName}-${ruleNumber}"
     let data = id.split("-");
- 
-    rule.table = data[1];
+    
+    rule.ruleTable = data[1];
     rule.ruleChain = data[2];
     rule.ruleNumber = data[3];
-    rule.ruleIndexInChain = operations.getRuleIndex(rule.table, rule.ruleChain, rule.ruleNumber);
+    rule.ruleIndexInChain = operations.getRuleIndex(rule.ruleTable, rule.ruleChain, rule.ruleNumber);
 
     return rule;
 }
