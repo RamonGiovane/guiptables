@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title translate="yes">Kernel </title>
+    <title translate="yes">Iptables UI</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,10 +27,10 @@
                 <div class="panel-heading">
                     <h2 class="panel-title">Filter</h2>
                     <div class="panel-actions">
-                        <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
+                        <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
                             style="display: inline-block;" data-test-stable="yes">Save Changes</button>
                         
-                        <button id="networking-add-team" class="pf-c-button pf-m-danger network-privileged"
+                        <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged"
                             style="display: inline-block;" data-test-stable="yes">Flush Table</button>
                        
                     </div>
@@ -60,10 +60,10 @@
                     <h2 class="panel-title">NAT</h2>
                     <div class="panel-actions">
                         <div class="panel-actions">
-                            <button id="networking-add-team" class="pf-c-button pf-m-secondary network-privileged"
+                            <button id="nat-save-changes" class="pf-c-button pf-m-secondary network-privileged"
                                 style="display: inline-block;" data-test-stable="yes">Save Changes</button>
                             
-                            <button id="networking-add-team" class="pf-c-button pf-m-danger network-privileged"
+                            <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
                                 style="display: inline-block;" data-test-stable="yes">Flush Table</button>
                         </div>
                     </div>
@@ -88,70 +88,10 @@
                 </table>
             </div>
 
-            <div class="panel panel-default" id="networking-unmanaged-interfaces" hidden="">
-                <div class="panel-heading">
-                    <h2 class="panel-title">Interfaces Não Gerenciadas</h2>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Endereço IP</th>
-                            <th class="networking-speed">Enviando</th>
-                            <th class="networking-speed">Recebendo</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>networking-unmanaged-interfaces
-
-        <div id="app">
-            <div class="container-fluid">
-
-                <form class="ct-form">
-
-                    <label class="control-label">status kdump</label>
-
-                    <div role="group">
-
-                        <label class="onoff-ct">
-                            <input type="checkbox">
-                            <span class="switch-toggle"></span>
-                        </label>
-
-                        <button role="link" class="popover-ct-kdump link-button">
-                            <span>O serviço tem um erro</span>
-                            <span class="popover-ct-kdump fa fa-lg fa-info-circle" aria-describedby="tip-service">
-                            </span>
-                        </button>
-
-                    </div>
-                    <div>
-                        <label class="control-label">Memória reservada</label>
-                        <span>Nenhum </span>
-                        <label class="control-label">Local de despejo de travamento</label>
-                        <span>
-                            <button class="link-button" id="kdump-change-target">localmente em /var/crash</button>
-                        </span>
-                    </div>
-
-                    <div role="group">
-                        <button aria-describedby="tip-test" aria-disabled="true"
-                            class="pf-c-button pf-m-secondary pf-m-disabled" disabled="" type="button"
-                            data-ouia-component-type="PF4/Button" data-ouia-safe="true"
-                            data-ouia-component-id="12">Configuração Teste</button>
-                        <button class="popover-ct-kdump link-button">
-                            <span class="fa fa-lg fa-info-circle" aria-describedby="tip-test-info"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <script src="../base1/jquery.min.js"></script>
         <script src="../base1/cockpit.min.js"></script>
-        <script type="module" src="./js/iptablesui.js"></script>
-        <script type="module" src="./js/table-sorter.js"></script>
+        <script type="module" src="./js/iptablesui.js" defer></script>
+        <script type="module" src="./js/table-sorter.js" defer></script>
 
 </body>
 

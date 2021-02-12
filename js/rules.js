@@ -1,9 +1,15 @@
+import RuleData from "./operations.js";
+import * as operations from './operations.js'
 
 /**Runs 'iptables -t [table] -L -v' and fills the HTML table with the response
  * With this command is possible to fetch general info of the 
  * rules set on each iptables layer.
  */
-export function addRulesInTable(){
+
+
+ export function addRulesInTable(){
+    
+    
     
     cockpit.spawn(["/usr/sbin/iptables", "-t", "nat", "-n", "-L", "-v"])
     .then(res=>  processResponse(res, "nat"))
@@ -12,6 +18,7 @@ export function addRulesInTable(){
     cockpit.spawn(["/usr/sbin/iptables", "-t", "filter", "-n", "-L", "-v"])
     .then(res=>  processResponse(res, "filter"))
     .catch(err=> alert(err))
+
 }
 
 function splitChainName(element){
@@ -49,7 +56,6 @@ function processResponse(data, table)
         
         i++;
 
-        console.log(element);
 
     });
 
@@ -108,29 +114,67 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
             `;
         }
 
-        
 
     });
 
     //Adiciona por fim a coluna 'Destination'
     cols += `<td>${destination}</td>`
 
+
     //Cria a tag de linha propriamente dita
     let tr = document.createElement("tr");
-   
-    console.log(cols);
+
+    
     //Insere o conteudo da colunas na linha
     tr.innerHTML =
            
         `
             <tr>
                 ${cols}
-                <td id="trash-can"><i class="fa fa-trash" aria-hidden="true"></i></td>
             </tr>
         `
     
+    //Adiciona o botao de excluir 
+    tr.appendChild(createDeleteButton(table, chainName, ruleNumber));
+
     //Insere a linha no HTML
     tableRow.appendChild(tr);   
+}
+
+function createDeleteButton(table, chainName, ruleNumber){
+   
+   let td = document.createElement("td");
+   td.id = `delete-${table}-${chainName}-${ruleNumber}`; 
+   
+   let icon = document.createElement("i");
+   icon.className = "fa fa-trash";
+   icon.ariaHidden = "true;"
+   icon.addEventListener("click", () => deleteButtonListener(td.id));
+   
+   td.appendChild(icon);
+
+   return td;
+}
+
+function deleteButtonListener(id){
+    
+    let rule = extractRuleFromId(id);
+    operations.deleteRule(rule);
+}
+
+function extractRuleFromId(id){
+    
+    let rule = new RuleData();
+
+    //delete-${table}-${chainName}-${ruleNumber}"
+    let data = id.split("-");
+ 
+    rule.table = data[1];
+    rule.ruleChain = data[2];
+    rule.ruleNumber = data[3];
+    rule.ruleIndexInChain = operations.getRuleIndex(rule.table, rule.ruleChain, rule.ruleNumber);
+
+    return rule;
 }
 
 function checkMissingColumns(arr){
@@ -140,14 +184,12 @@ function checkMissingColumns(arr){
     ///Checking if target is missing
     let copy = arr.slice(0, 3);
     
-    alert(copy);
-
     if(copy[2] == "all" || copy[2] == "tcp" || copy[2] == "udp")
         arr.splice(2, 0, "--");
 
     ///
     ///
-    
+
     return arr;
 
 }
@@ -183,3 +225,4 @@ function fillEmptyTable(table){
     tableRow.appendChild(tr);
     
 }
+
