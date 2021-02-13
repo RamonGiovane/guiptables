@@ -17,8 +17,12 @@ import * as widgets from './widgets.js'
  * reloads the table HTML.
  */
 export function flushTable(table){
-    operations.flush(table);
-    reloadTableRules(table);
+    let response = operations.flush(table);
+    
+    if(!response)
+        reloadTableRules(table);
+    else
+        widgets.errorMessage("flush table", response);
 }
 
 function loadTableRules(table){

@@ -1,3 +1,5 @@
+import * as widgets from './widgets.js';
+
 export default class RuleData{
     ruleNumber;
     ruleChain;
@@ -6,9 +8,12 @@ export default class RuleData{
 }
 
 export function flush(table){
-    cockpit.spawn(["iptables", "-t", table, "-F"])
-    .then(res=>  console.log("All rows deleted on table " + table))
-    .catch(err=> alert(err))
+    let response;
+    
+    cockpit.spawn(["iptables", "-t", table, "-F"], {err : "out"})
+    .stream(res=>  widgets.errorMessage("flush table", res));
+
+    return response;
 }
 
 export function getRuleIndex(table, chain, ruleNumber){
@@ -26,10 +31,9 @@ export function deleteRule(ruleData){
         alert("Error: Rule not found (rule index is invalid).");
 
     cockpit.spawn(["iptables", "-t", ruleData.ruleTable,
-         "-D", ruleData.ruleChain, ruleData.ruleIndexInChain])
-    .then(res=>  console.log("Rule deleted on " + ruleData.ruleTable))
-    .catch(err=> alert("Error: Rule not found (rule may be deleted already).\nDetails: " + err))
-
+         "-D", ruleData.ruleChain, ruleData.ruleIndexInChain], {err : "out"})
+    .stream(res=>   widgets.errorMessage("delete rule", res))
+    
 }
 
 export function readFile(fileName){
