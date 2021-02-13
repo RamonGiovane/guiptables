@@ -1,5 +1,6 @@
 import RuleData from "./operations.js";
 import * as operations from './operations.js'
+import * as widgets from './widgets.js'
 
 /**Runs 'iptables -t [table] -L -v' and fills the HTML table with the response
  * With this command is possible to fetch general info of the 
@@ -12,6 +13,14 @@ import * as operations from './operations.js'
     loadTableRules("filter");
 }
 
+/**Runs 'iptables -t [table] -F' which deletes all table rows then
+ * reloads the table HTML.
+ */
+export function flushTable(table){
+    operations.flush(table);
+    reloadTableRules(table);
+}
+
 function loadTableRules(table){
     cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
     .then(res=>  processResponse(res, table))
@@ -21,13 +30,12 @@ function loadTableRules(table){
 
 function reloadTableRules(table){
 
-    //Destroy rules
+    //Destroying rules
     let rules = document.getElementById(table + "-rules-table");
   
     
     let children = rules.childNodes;
     
-    debugger
     for(let i = children.length -1; i >=0; i--)
         children[i].remove();
  
@@ -163,8 +171,20 @@ function createDeleteButton(table, chainName, ruleNumber){
    
    let icon = document.createElement("i");
    icon.className = "fa fa-trash";
-   icon.ariaHidden = "true;"
-   icon.addEventListener("click", () => deleteButtonListener(td.id));
+
+
+   let dataToogle = document.createAttribute("data-toggle");
+   dataToogle.value = "modal";
+
+   
+   let dataTarget = document.createAttribute("data-target");
+   dataTarget.value = "#dangerModal";
+
+   icon.setAttributeNode(dataToogle);
+   icon.setAttributeNode(dataTarget);
+
+   icon.addEventListener("click", () => 
+    widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
    
    td.appendChild(icon);
 
@@ -182,7 +202,6 @@ function extractRuleFromId(id){
     
     let rule = new RuleData();
 
-    //delete-${table}-${chainName}-${ruleNumber}"
     let data = id.split("-");
     
     rule.ruleTable = data[1];

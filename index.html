@@ -28,10 +28,10 @@
                     <h2 class="panel-title">Filter</h2>
                     <div class="panel-actions">
                         <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
-                            style="display: inline-block;" data-test-stable="yes">Save Changes</button>
+                           data-test-stable="yes">Save Changes</button>
                         
-                        <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged"
-                            style="display: inline-block;" data-test-stable="yes">Flush Table</button>
+                        <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged"  data-toggle="modal" data-target="#dangerModal"
+                           data-test-stable="yes">Flush Table</button>
                        
                     </div>
                 </div>
@@ -60,11 +60,13 @@
                     <h2 class="panel-title">NAT</h2>
                     <div class="panel-actions">
                         <div class="panel-actions">
-                            <button id="nat-save-changes" class="pf-c-button pf-m-secondary network-privileged"
-                                style="display: inline-block;" data-test-stable="yes">Save Changes</button>
+                            <button id="nat-save-changes"  class="pf-c-button pf-m-secondary network-privileged"
+                               data-test-stable="yes">Save Changes</button>
                             
                             <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
-                                style="display: inline-block;" data-test-stable="yes">Flush Table</button>
+                                data-test-stable="yes">Flush Table</button>
+
+                               
                         </div>
                     </div>
                 </div>
@@ -88,9 +90,28 @@
                 </table>
             </div>
 
-        <script src="../base1/jquery.min.js"></script>
-        <script src="../base1/cockpit.min.js"></script>
+
+        <div id="dangerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                   <div class="modal-content">
+                     <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                       <h4 id="danger-modal-title">Delete rule</h4>
+                     </div>
+                     <div class="modal-body">
+                       <strong>Are you sure?</strong>This action cannot be undone.
+                     </div>
+                     <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                       <button id="danger-confirm-button" type="button" data-dismiss="modal" class="btn btn-danger">Confirm</button>
+                     </div>
+                </div>
+        </div>
+
+        <script src="jquery.min.js"></script>
+        <script src="cockpit.min.js"></script>
         <script type="module" src="./js/iptablesui.js" defer></script>
+        <script type="module" src="./js/widgets.js" defer></script>
         <script type="module" src="./js/table-sorter.js" defer></script>
 
 </body>

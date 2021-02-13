@@ -7,7 +7,7 @@ export default class RuleData{
 
 export function flush(table){
     cockpit.spawn(["iptables", "-t", table, "-F"])
-    .then(res=>  alert("All rows deleted on table " + table))
+    .then(res=>  console.log("All rows deleted on table " + table))
     .catch(err=> alert(err))
 }
 
@@ -27,7 +27,7 @@ export function deleteRule(ruleData){
 
     cockpit.spawn(["iptables", "-t", ruleData.ruleTable,
          "-D", ruleData.ruleChain, ruleData.ruleIndexInChain])
-    .then(res=>  alert("Rule deleted on " + ruleData.ruleTable))
+    .then(res=>  console.log("Rule deleted on " + ruleData.ruleTable))
     .catch(err=> alert("Error: Rule not found (rule may be deleted already).\nDetails: " + err))
 
 }
@@ -53,8 +53,6 @@ export function filterTableByChain(table, chain){
     let a = arr.filter(function(element){
          return element.textContent.includes(chain);
      });
-
-     alert(a.length);
 
      return a;
 }
