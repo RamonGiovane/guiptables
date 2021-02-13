@@ -33,7 +33,7 @@ export function deleteRule(ruleData){
     cockpit.spawn(["iptables", "-t", ruleData.ruleTable,
          "-D", ruleData.ruleChain, ruleData.ruleIndexInChain], {err : "out"})
     .stream(res=>   widgets.errorMessage("delete rule", res))
-    
+
 }
 
 export function readFile(fileName){
