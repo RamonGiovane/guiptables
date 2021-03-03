@@ -1,4 +1,23 @@
-.trash-can :hover{
-    color: red !important;
+.fa-trash{
+    color:  #c9190b !important;
 }
 
+.fa-trash:hover{
+    color: #ff7961 !important;
+}
+
+
+.fa-plus-circle{
+    color:  #06c !important;
+}
+
+.badge{
+    background-color:  #06c !important;
+}
+.fa-plus-circle:hover{
+    color: #007080 !important;
+}
+
+hr{
+    margin: 20px 0;
+}

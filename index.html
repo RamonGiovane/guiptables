@@ -14,9 +14,6 @@
 
 </head>
 
-
-
-
 <body>
 
     <span id="message-board"></span>
@@ -24,96 +21,215 @@
     <h3>Active Rules</h3>
 
 
-        <div class="panel panel-default" id="networking-interfaces">
-                <div class="panel-heading">
-                    <h2 class="panel-title">Filter</h2>
-                    <div class="panel-actions">
-                        <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
-                           data-test-stable="yes">Save Changes</button>
-                        
-                        <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged"  data-toggle="modal" data-target="#dangerModal"
-                           data-test-stable="yes">Flush Table</button>
-                       
-                    </div>
-                </div>
-                <table id="table" class="table table-hover">
-                    <thead>
-                        <th>#</th>
-                        <th>Packets</th>
-                        <th>Bytes</th>
-                        <th>Chain</th>
-                        <th>Job</th>
-                        <th>Protocol</th>
-                        <th>Options</th>
-                        <th>Input</th>
-                        <th>Output</th>
-                        <th>Source</th>
-                        <th>Destination</th>
-                        <th></th>
-                    </thead>
-                    <tbody id="filter-rules-table">
-                    </tbody>
-                </table>
+    <div class="panel panel-default" id="networking-interfaces">
+
+        <div class="panel-heading">
+            <h2 class="panel-title">Filter</h2>
+            <div class="panel-actions">
+                <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
+                    data-test-stable="yes">Save Changes</button>
+
+                <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged" data-toggle="modal"
+                    data-target="#dangerModal" data-test-stable="yes">Flush Table</button>
+
             </div>
-
-            <div class="panel panel-default" id="networking-interfaces">
-                <div class="panel-heading">
-                    <h2 class="panel-title">NAT</h2>
-                    <div class="panel-actions">
-                        <div class="panel-actions">
-                            <button id="nat-save-changes"  class="pf-c-button pf-m-secondary network-privileged"
-                               data-test-stable="yes">Save Changes</button>
-                            
-                            <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
-                                data-test-stable="yes">Flush Table</button>
-
-                               
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                        <th>#</th>
-                        <th>Packets</th>
-                        <th>Bytes</th>
-                        <th>Chain</th>
-                        <th>Job</th>
-                        <th>Protocol</th>
-                        <th>Options</th>
-                        <th>Input</th>
-                        <th>Output</th>
-                        <th>Source</th>
-                        <th>Destination</th>
-                        <th></th>
-                    </thead>
-                    <tbody id="nat-rules-table">
-                    </tbody>
-                </table>
-            </div>
-
-
-        <div id="dangerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                   <div class="modal-content">
-                     <div class="modal-header">
-                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                       <h4 id="danger-modal-title">Delete rule</h4>
-                     </div>
-                     <div class="modal-body">
-                       <strong>Are you sure?</strong> This action cannot be undone.
-                     </div>
-                     <div class="modal-footer">
-                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                       <button id="danger-confirm-button" type="button" data-dismiss="modal" class="btn btn-danger">Confirm</button>
-                     </div>
-                </div>
         </div>
 
-        <script src="jquery.min.js"></script>
-        <script src="cockpit.min.js"></script>
-        <script type="module" src="./js/iptablesui.js" defer></script>
-        <script type="module" src="./js/widgets.js" defer></script>
-        <script type="module" src="./js/table-sorter.js" defer></script>
+        <table id="table" class="table table-hover">
+            <thead>
+                <th></th>
+                <th>#</th>
+                <th>Packets</th>
+                <th>Bytes</th>
+                <th>Chain</th>
+                <th>Job</th>
+                <th>Protocol</th>
+                <th>Options</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th></th>
+            </thead>
+            <tbody id="filter-rules-table">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel panel-default" id="networking-interfaces">
+        <div class="panel-heading">
+            <h2 class="panel-title">NAT</h2>
+            <div class="panel-actions">
+                <div class="panel-actions">
+                    <button id="nat-save-changes" class="pf-c-button pf-m-secondary network-privileged"
+                        data-test-stable="yes">Save Changes</button>
+
+                    <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
+                        data-test-stable="yes">Flush Table</button>
+
+
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <th></th>
+                <th>#</th>
+                <th>Packets</th>
+                <th>Bytes</th>
+                <th>Chain</th>
+                <th>Job</th>
+                <th>Protocol</th>
+                <th>Options</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th></th>
+            </thead>
+            <tbody id="nat-rules-table">
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+
+    <div id="dangerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dangerModalLabel"
+        aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h4 id="danger-modal-title">Delete rule</h4>
+                </div>
+                <div class="modal-body">
+                    <strong>Are you sure?</strong> This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="danger-confirm-button" type="button" data-dismiss="modal"
+                        class="btn btn-danger">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ruleModal" class="modal fade" tabindex="0" role="dialog" aria-labelledby="ruleModalLabel"
+        aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h3 id="rule-modal-title">Insert new rule</h3>
+                </div>
+
+                <div>
+                    <span class="badge bg-primary">Table: Filter</span>
+                    <span class="badge bg-warning">Chain: FORWARD</span>
+                </div>
+
+                <hr>
+
+                <div>
+                    <div>
+                        <input class="form-check-input" type="checkbox" value="" id="source-rule-check">
+            
+                        <label for="source-rule-menu">Input Interface</label>
+
+                        <select id="source-rule-menu" class="ct-select">
+                            <option value="lo-item">lo</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <input class="form-check-input" type="checkbox" value="" id="output-interface-rule-check">
+            
+                         <label for="output-interface-rule-menu">Output Interface</label>
+
+                        <select id="output-interface-rule-menu" class="ct-select">
+                            <option value="lo-item">lo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div>
+                    <input class="form-check-input" type="checkbox" value="" id="protocol-rule-check">
+            
+                    <label for="protocol-rule-menu">Protocol</label>
+
+                    <select id="protocol-rule-menu" class="ct-select">
+                        <option value="tcp-item">tcp</option>
+                        <option value="udp-item">udp</option>
+                        <option value="icmp-item">icmp</option>
+                    </select>
+
+                    <label for="protocol-rule-opts-text">Options</label>
+
+                    <input class="form-check-input" type="text" placeholder="--dport 80" id="protocol-rule-opts-text">
+
+                </div>
+
+
+                <hr>
+                
+
+                <div>
+                    <input class="form-check-input" type="checkbox" value="" id="input-interface-rule-check">
+            
+                    <label for="input-interface-rule-menu">Source:</label>
+
+                    <input class="form-check-input" type="text" placeholder="127.0.0.1" id="output-interface-rule-check">
+
+                    <br>
+
+                    <input class="form-check-input" type="checkbox" value="" id="destination-rule-check">
+
+                    <label for="destination-rule-menu">Destination:</label>
+
+                    <input class="form-check-input" type="text" placeholder="192.168.0.1" id="output-interface-rule-check">
+
+                </div>
+                
+                <hr>
+
+                <div>
+                    <input class="form-check-input" type="checkbox" value="" id="job-rule-check">
+            
+                    <label for="job-rule-menu">Action:</label>
+
+                    <select id="job-rule-menu" class="ct-select">
+                        <option value="lo-item">ACCEPT</option>
+                        <option value="lo-item">DROP</option>
+                        <option value="lo-item">REJECT</option>
+                    </select>
+
+                </div>
+                
+                <hr>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="rule-confirm-button" type="button" data-dismiss="modal"
+                        class="pf-c-button pf-m-primary">Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="jquery.min.js"></script>
+    <script src="cockpit.min.js"></script>
+    <script type="module" src="./js/iptablesui.js" defer></script>
+    <script type="module" src="./js/widgets.js" defer></script>
+    <script type="module" src="./js/table-sorter.js" defer></script>
+
+
 
 </body>
 

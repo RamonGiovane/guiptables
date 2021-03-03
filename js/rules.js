@@ -152,6 +152,7 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
 
     tr.className = `row-${table}-${chainName}`
 
+
     //Insere o conteudo da colunas na linha
     tr.innerHTML =
            
@@ -160,12 +161,43 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
                 ${cols}
             </tr>
         `
-    
+
+    //Adiciona o botão de inserir
+    tr.insertBefore(createAddButton(table, chainName, ruleNumber), tr.firstChild);
+
     //Adiciona o botao de excluir 
     tr.appendChild(createDeleteButton(table, chainName, ruleNumber));
 
     //Insere a linha no HTML
     tableRow.appendChild(tr);   
+}
+
+function createAddButton(table, chainName, ruleNumber){
+    let td = document.createElement("td");
+    td.id = `add-${table}-${chainName}-${ruleNumber}`;
+    
+    
+   let icon = document.createElement("i");
+   icon.className = "fa fa-plus-circle";
+
+   
+   let dataToogle = document.createAttribute("data-toggle");
+   dataToogle.value = "modal";
+
+   
+   let dataTarget = document.createAttribute("data-target");
+   dataTarget.value = "#ruleModal";
+
+   icon.setAttributeNode(dataToogle);
+   icon.setAttributeNode(dataTarget);
+
+   icon.addEventListener("click", () => 
+    widgets.ruleModal("Add new rule", () => deleteButtonListener(td.id)));
+   
+   td.appendChild(icon);
+
+   return td;
+
 }
 
 function createDeleteButton(table, chainName, ruleNumber){

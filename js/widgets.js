@@ -7,6 +7,15 @@ export function dangerModal(title, confirmCallBack){
 
 }
 
+export function ruleModal(title, confirmCallBack){
+            
+    document.getElementById("rule-modal-title").innerText = title;
+    document.getElementById("rule-confirm-button").onclick = confirmCallBack;    
+
+}
+
+
+
 
 export function errorMessage(operationTried, message){
  debugger
