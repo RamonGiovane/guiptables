@@ -6,7 +6,9 @@ let chains =
     {
         "filter" : ["Show all", "INPUT", "FORWARD", "OUTPUT"],
         "nat" : ["Show all", "INPUT", "OUTPUT", "PREROUTING", "POSTROUTING"],
-    }
+    };
+
+
 
 export default class RuleData{
     ruleNumber;

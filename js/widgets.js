@@ -1,4 +1,6 @@
 
+import * as bootstrap from './../bootstrap/bootstrap.min.js';
+
 export function dangerModal(title, confirmCallback){
             
     document.getElementById("danger-modal-title").innerText = title;
@@ -6,8 +8,19 @@ export function dangerModal(title, confirmCallback){
 
 }
 
+export function ruleModal(interfaceNames, table, chain = null) {
+    
+    table = table.toLowerCase();
 
-export function ruleModal(title, interfaces, applyCallback){
+    if (chain == null)
+        chain = document.getElementById(table + "-chain-menu").value;
+
+
+
+    loadRuleModal("Add new rule", table, chain, interfaceNames, null);
+}
+
+function loadRuleModal(title, table, chain, interfaces, applyCallback){
 
     let interfacesOptionsHTML = "";
     
@@ -21,11 +34,27 @@ export function ruleModal(title, interfaces, applyCallback){
         `
     });
 
+    if(table == "nat")
+        table = table.toUpperCase();
+    else
+        table =  table.charAt(0).toUpperCase() + table.substring(1);
+
     document.getElementById("rule-modal-title").innerText = title;
+    document.getElementById("badge-table").innerText = "Table: " + table;
+    document.getElementById("badge-chain").innerText = "Chain: " + chain;
     document.getElementById("rule-confirm-button").onclick = applyCallback; 
     document.getElementById("intput-interface-rule-menu").innerHTML = interfacesOptionsHTML;
     document.getElementById("output-interface-rule-menu").innerHTML = interfacesOptionsHTML;
+ 
     
+}
+
+export function cancelRuleModal(){
+    let modal = document.getElementById("ruleModal");
+
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('style', 'display: none');
 }
 
 
@@ -48,3 +77,18 @@ export function errorMessage(operationTried, message){
 
 }
 
+export function tableMessage(table, message){
+   
+    let msg = document.getElementById(table + "-message");
+
+    msg.innerHTML = `<strong>${message}</strong>`;
+
+}
+
+export function hideTableMessage(table){
+   
+    let msg = document.getElementById(table + "-message");
+
+    if(msg != null)
+        msg.innerHTML = "";
+}

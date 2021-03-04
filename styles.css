@@ -1,8 +1,8 @@
-.fa-trash{
+.fa-trash-red{
     color:  #c9190b !important;
 }
 
-.fa-trash:hover{
+.fa-trash-red:hover{
     color: #ff7961 !important;
 }
 
@@ -21,3 +21,12 @@
 hr{
     margin: 20px 0;
 }
+
+
+.table-message{
+    color:  #c9190b !important;
+    margin-right: 15px;
+}
+
+
+

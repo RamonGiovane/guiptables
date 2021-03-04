@@ -2,15 +2,24 @@ import RuleData from "./operations.js";
 import * as operations from './operations.js'
 import * as widgets from './widgets.js'
 
-let activeFilterChain;
-let activeNATChain;
+
+let activeChains = {"filter" : "Show all", "nat" : "Show all"};
+
+export function getActiveChain(table){
+    return activeChains[table];
+}
+
+
+export function setActiveChain(table, chain){
+    activeChains[table] = chain;
+}
 
 /**Runs 'iptables -t [table] -L -v' and fills the HTML table with the response
  * With this command is possible to fetch general info of the 
  * rules set on each iptables layer.
  */
- export function addRulesInTable(){
-    
+export function addRulesInTable() {
+
     loadTableRules("nat");
 
     loadTableRules("filter");
@@ -19,106 +28,105 @@ let activeNATChain;
 /**Runs 'iptables -t [table] -F' which deletes all table rows then
  * reloads the table HTML.
  */
-export function flushTable(table){
+export function flushTable(table) {
     let response = operations.flush(table);
-    
-    if(!response)
+
+    if (!response)
         reloadTableRules(table);
     else
         widgets.errorMessage("flush table", response);
 }
 
-function loadTableRules(table, chainFilter){
-    if(chainFilter == "Show all")
+function loadTableRules(table, chainFilter) {
+    if (chainFilter == "Show all")
         chainFilter = null;
 
     cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
-    .then(res=>  processResponse(res, table, chainFilter))
-    .catch(err=> alert(err))
-   
+        .then(res => processResponse(res, table, chainFilter))
+        .catch(err => alert(err))
+
 }
 
-export function reloadTableRules(table, chainFilter){
+export function reloadTableRules(table, chainFilter) {
 
-  
+
     //Destroying rules
     let rules = document.getElementById(table + "-rules-table");
-  
-    
+
+
     let children = rules.childNodes;
-    
-    for(let i = children.length -1; i >=0; i--)
+
+    for (let i = children.length - 1; i >= 0; i--)
         children[i].remove();
- 
+
     debugger
     loadTableRules(table, chainFilter);
 }
 
-function splitChainName(element){
+function splitChainName(element) {
     return element.split(" ")[1];
 }
 
-function processResponse(data, table, chainFilter)
-{
+function processResponse(data, table, chainFilter) {
 
     let text = data.split("\n");
 
     let hasContent = false;
-    
+
     let i = 0;
-    
+
     let chainName;
 
     //Setting rows
     text.forEach(element => {
 
-        if(element.startsWith("Chain")){
+        if (element.startsWith("Chain")) {
             chainName = splitChainName(element);
             return;
         }
-            
-        if(chainFilter && chainName != chainFilter)
-            return;
-            
-        if(element.startsWith(" pkts"))
+
+        if (chainFilter && chainName != chainFilter)
             return;
 
-        if(!element)
+        if (element.startsWith(" pkts"))
+            return;
+
+        if (!element)
             return;
 
         hasContent = true;
-        
-        splitRowAndSetRule(element, table, chainName, i+1)
-        
+
+        splitRowAndSetRule(element, table, chainName, i + 1)
+
         i++;
 
 
     });
 
-    if(!hasContent){
+    if (!hasContent) {
         fillEmptyTable(table)
     }
 
 }
 
-export function setChainMenu(table){
+export function setChainMenu(table) {
     let menu = document.getElementById(table + "-chain-menu");
     menu.innerHTML = "";
 
     let chains = operations.getChains(table);
     chains.forEach(c => {
         menu.innerHTML +=
-        `
+            `
         <option value="${c}">${c}</option>
         `
     });
 }
 
-function splitRowAndSetRule(rule, table, chainName, ruleNumber){
-    
+function splitRowAndSetRule(rule, table, chainName, ruleNumber) {
+
     //Uma linha com regras se torna um array
     let text = rule.trim().split(/[ ,]+/);
-    
+
     text = checkMissingColumns(text);
 
     //Accessa a tag html
@@ -126,17 +134,17 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
 
     //Inicializa a linha com a primeira coluna, o numero da regra
     let cols = `<td>${ruleNumber}</td>`;
-    
+
     let i = 0;
-    
+
     let destination = ""
 
     //Cria as colunas de uma linha
     text.forEach(element => {
-        
+
         //Montando a coluna 'Destination' que as vezes é composta 
         //por varias palavras e pode ter sido quebrada em fragmentos
-        if(i >= 8){
+        if (i >= 8) {
             destination += formatColumn(element);
             destination += "      ";
         }
@@ -144,19 +152,19 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
         else {
             //Inserindo uma coluna
             cols +=
-            `
+                `
                 <td>
                     ${formatColumn(element)}
                 </td>
             `;
         }
-        
+
         i++;
 
         //Inserindo a coluna Chain
-        if(i == 2){
+        if (i == 2) {
             cols +=
-            `
+                `
                 <td>
                     ${chainName}
                 </td>
@@ -178,7 +186,7 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
 
     //Insere o conteudo da colunas na linha
     tr.innerHTML =
-           
+
         `
             <tr>
                 ${cols}
@@ -192,68 +200,71 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber){
     tr.appendChild(createDeleteButton(table, chainName, ruleNumber));
 
     //Insere a linha no HTML
-    tableRow.appendChild(tr);   
+    tableRow.appendChild(tr);
 }
 
-function createAddButton(table, chainName, ruleNumber){
+function createAddButton(table, chainName, ruleNumber) {
     let td = document.createElement("td");
     td.id = `add-${table}-${chainName}-${ruleNumber}`;
-    
-    
-   let icon = document.createElement("i");
-   icon.className = "fa fa-plus-circle";
 
-   
-   let dataToogle = document.createAttribute("data-toggle");
-   dataToogle.value = "modal";
 
-   
-   let dataTarget = document.createAttribute("data-target");
-   dataTarget.value = "#ruleModal";
+    let icon = document.createElement("i");
+    icon.className = "fa fa-plus-circle";
 
-   icon.setAttributeNode(dataToogle);
-   icon.setAttributeNode(dataTarget);
 
-   icon.addEventListener("click", () => 
+    let dataToogle = document.createAttribute("data-toggle");
+    dataToogle.value = "modal";
 
-   widgets.ruleModal("Add new rule", operations.getInterfaceNames(), null));
-   
-   td.appendChild(icon);
 
-   return td;
+    let dataTarget = document.createAttribute("data-target");
+    dataTarget.value = "#ruleModal";
+
+    icon.setAttributeNode(dataToogle);
+    icon.setAttributeNode(dataTarget);
+
+    icon.addEventListener("click", () =>
+
+        widgets.ruleModal(operations.getInterfaceNames(), table, chainName)
+    );
+
+    td.appendChild(icon);
+
+    return td;
 
 }
 
-function createDeleteButton(table, chainName, ruleNumber){
-   
-   let td = document.createElement("td");
-   td.id = `delete-${table}-${chainName}-${ruleNumber}`; 
-   
-   let icon = document.createElement("i");
-   icon.className = "fa fa-trash";
 
 
-   let dataToogle = document.createAttribute("data-toggle");
-   dataToogle.value = "modal";
+function createDeleteButton(table, chainName, ruleNumber) {
 
-   
-   let dataTarget = document.createAttribute("data-target");
-   dataTarget.value = "#dangerModal";
+    let td = document.createElement("td");
+    td.id = `delete-${table}-${chainName}-${ruleNumber}`;
 
-   icon.setAttributeNode(dataToogle);
-   icon.setAttributeNode(dataTarget);
+    let icon = document.createElement("i");
+    icon.className = "fa fa-trash fa-trash-red";
 
-   icon.addEventListener("click", () => 
-   widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
-   
-   td.appendChild(icon);
 
-   return td;
+    let dataToogle = document.createAttribute("data-toggle");
+    dataToogle.value = "modal";
+
+
+    let dataTarget = document.createAttribute("data-target");
+    dataTarget.value = "#dangerModal";
+
+    icon.setAttributeNode(dataToogle);
+    icon.setAttributeNode(dataTarget);
+
+    icon.addEventListener("click", () =>
+        widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
+
+    td.appendChild(icon);
+
+    return td;
 }
 
 /**Intended to execute when user clicks on a trash can icon */
-function deleteButtonListener(id){
-    
+function deleteButtonListener(id) {
+
 
 
     let rule = extractRuleFromId(id);
@@ -261,37 +272,14 @@ function deleteButtonListener(id){
     reloadTableRules(rule.ruleTable);
 }
 
-function loadAddWidgetData(){
 
-    debugger
+function extractRuleFromId(id) {
 
-    operations.getInterfaceNames("input", showInterfaceNames);
-    operations.getInterfaceNames("output", showInterfaceNames);
-}
-
-function showInterfaceNames(tagName, interfaceNames){
-    
-    let selectMenu = document.getElementById(tagName + "-interface-rule-menu");
-
-    interfaceNames.split(" ").forEach(i => {
-        let option = document.createElement("option");
-        
-        let valueAttr = document.createAttribute("value");
-        valueAttr.value = i;
-
-        option.setAttributeNode(valueAttr);
-
-        selectMenu.appendChild(option);
-    });
-}
-
-function extractRuleFromId(id){
-    
     debugger
     let rule = new RuleData();
 
     let data = id.split("-");
-    
+
     rule.ruleTable = data[1];
     rule.ruleChain = data[2];
     rule.ruleNumber = data[3];
@@ -300,14 +288,14 @@ function extractRuleFromId(id){
     return rule;
 }
 
-function checkMissingColumns(arr){
-   
+function checkMissingColumns(arr) {
+
 
     ///
     ///Checking if target is missing
     let copy = arr.slice(0, 3);
-    
-    if(copy[2] == "all" || copy[2] == "tcp" || copy[2] == "udp")
+
+    if (copy[2] == "all" || copy[2] == "tcp" || copy[2] == "udp")
         arr.splice(2, 0, "--");
 
     ///
@@ -317,35 +305,35 @@ function checkMissingColumns(arr){
 
 }
 
-function formatColumn(element){
-    
-    if(element == "*")
+function formatColumn(element) {
+
+    if (element == "*")
         return "any"
-    
-    if(element == "0.0.0.0/0")
+
+    if (element == "0.0.0.0/0")
         return "anywhere";
-    
+
     return element;
 
 }
 
-function fillEmptyTable(table){
+function fillEmptyTable(table) {
 
     //Accessa a tag html
     let tableRow = document.getElementById(table + "-rules-table");
-    
+
     let tr = document.createElement("tr");
-   
+
     //Insere o conteudo da colunas na linha
     tr.innerHTML =
-           
+
         `
             <tr>
                <td colspan="13">No active rules</td>
             </tr>
         `
-    
+
     tableRow.appendChild(tr);
-    
+
 }
 

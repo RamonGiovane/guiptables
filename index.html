@@ -18,7 +18,7 @@
 
     <span id="message-board"></span>
 
-    
+
     <h3>&nbsp;&nbsp;<i class="fa fa-tasks">&nbsp;</i>guiptables</h3>
 
 
@@ -27,17 +27,26 @@
         <div class="panel-heading">
             <h2 class="panel-title">Filter</h2>
             <div class="panel-actions">
+                
+                <span class="table-message" id="filter-message"></span>
+
                 <label for="filter-chain-menu">Chain:</label>
 
                 <select id="filter-chain-menu" class="ct-select">
                 </select>
 
-                <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
-                    data-test-stable="yes">Save Changes</button>
+                <button id="filter-add-rule" class="pf-c-button pf-m-secondary network-privileged"
+                    data-target="#ruleModal"
+                    data-toggle="modal" 
+                    data-test-stable="yes">
+                    <i class="fa fa-plus-circle"></i>&nbsp; Add rule
+                </button>
 
-                <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged" data-toggle="modal"
-                    data-target="#dangerModal" data-test-stable="yes">Flush Table</button>
-
+                <button id="filter-flush-table" 
+                    class="pf-c-button pf-m-danger network-privileged"
+                    data-toggle="modal" data-target="#dangerModal"  data-test-stable="yes">
+                    <i class="fa fa-trash"></i>&nbsp;Flush table
+                </button>    
             </div>
         </div>
 
@@ -68,16 +77,23 @@
             <div class="panel-actions">
                 <div class="panel-actions">
 
+                    <span class="table-message" id="nat-message"></span>
+
                     <label for="nat-chain-menu">Chain:</label>
 
                     <select id="nat-chain-menu" class="ct-select">
                     </select>
 
-                    <button id="nat-save-changes" class="pf-c-button pf-m-secondary network-privileged"
-                        data-test-stable="yes">Save Changes</button>
+                    <button id="nat-add-rule" class="pf-c-button pf-m-secondary network-privileged"
+                        data-test-stable="yes" data-toggle="modal" data-target="#ruleModal">
+                        <i class="fa fa-plus-circle"></i>&nbsp; Add rule
+                    </button>
 
+                   
                     <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
-                        data-test-stable="yes">Flush Table</button>
+                    data-toggle="modal" data-target="#dangerModal"  data-test-stable="yes">
+                        <i class="fa fa-trash"></i>&nbsp;Flush table
+                    </button>
 
 
                 </div>
@@ -138,8 +154,8 @@
                 </div>
 
                 <div>
-                    <span class="badge bg-primary">Table: Filter</span>
-                    <span class="badge bg-warning">Chain: FORWARD</span>
+                    <span id="badge-table" class="badge bg-primary">Table: Filter</span>
+                    <span id="badge-chain" class="badge bg-warning">Chain: FORWARD</span>
                 </div>
 
                 <hr>
