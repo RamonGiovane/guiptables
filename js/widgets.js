@@ -1,5 +1,5 @@
 
-import * as bootstrap from './../bootstrap/bootstrap.min.js';
+import * as consts from './constants.js';
 
 export function dangerModal(title, confirmCallback){
             
@@ -9,15 +9,14 @@ export function dangerModal(title, confirmCallback){
 }
 
 export function ruleModal(interfaceNames, table, chain = null) {
-    
-    table = table.toLowerCase();
+
 
     if (chain == null)
         chain = document.getElementById(table + "-chain-menu").value;
 
 
 
-    loadRuleModal("Add new rule", table, chain, interfaceNames, null);
+    loadRuleModal(consts.AddNewRule, table, chain, interfaceNames, null);
 }
 
 function loadRuleModal(title, table, chain, interfaces, applyCallback){
@@ -67,7 +66,7 @@ export function errorMessage(operationTried, message){
     div.innerHTML =
     `
     <span class="pficon pficon-error-circle-o"></span>
-    <strong>Failed to ${operationTried}</strong>. ${message} 
+    <strong>${consts.FailedTo} ${operationTried}</strong>. ${message} 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">Close</button>
     `;
 

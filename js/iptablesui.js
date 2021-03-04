@@ -2,6 +2,7 @@
 import * as operations from './operations.js';
 import * as rules from './rules.js'
 import * as widgets from './widgets.js'
+import * as consts from './constants.js'
 
 document.addEventListener('readystatechange', event => { 
     registerEventListeners();
@@ -16,11 +17,11 @@ function registerEventListeners(){
 
 
     document.getElementById("filter-flush-table").onclick = function(){
-        widgets.dangerModal("Delete ALL filter rules from ALL chains?", () => rules.flushTable("filter"));
+        widgets.dangerModal(consts.getDeleteMsg(consts.Filter), () => rules.flushTable(consts.filter));
     }; 
     
     document.getElementById("nat-flush-table").onclick = function(){
-        widgets.dangerModal("Delete ALL NAT rules from ALL chains?", () => rules.flushTable("nat"));
+        widgets.dangerModal(consts.getDeleteMsg(consts.NAT), () => rules.flushTable(consts.nat));
     };
     
 
@@ -33,22 +34,24 @@ function setAddButtons(){
     
     document.getElementById("nat-add-rule").onclick = (ev) =>{
         
-        if(rules.getActiveChain("nat") == "Show all"){
+        if(rules.getActiveChain(consts.nat) == consts.showAll){
             ev.stopPropagation();
 
-            widgets.tableMessage("nat", "Please, select a chain first!");
+            widgets.tableMessage(consts.nat, consts.selectChainMsg);
         }
-        else widgets.ruleModal(operations.getInterfaceNames(), "NAT");
+        else widgets.ruleModal(operations.getInterfaceNames(), consts.nat);
     };
     
     document.getElementById("filter-add-rule").onclick = (ev) => {
         
-        if(rules.getActiveChain("filter") == "Show all"){
+        debugger
+        if(rules.getActiveChain(consts.filter) == consts.showAll){
             ev.stopPropagation();
 
-            widgets.tableMessage("filter", "Please, select a chain first!");
+            widgets.tableMessage(consts.filter, consts.selectChainMsg);
         }
-        else widgets.ruleModal(operations.getInterfaceNames(), "filter");
+
+        else widgets.ruleModal(operations.getInterfaceNames(), consts.filter);
     };    
 
 }
@@ -57,23 +60,23 @@ function setChainMenus(){
     
     
     debugger
-    rules.setChainMenu("filter");
+    rules.setChainMenu(consts.filter);
 
     let chainMenu = document.getElementById("filter-chain-menu");
     chainMenu.onchange = (ev) =>{
-        widgets.hideTableMessage("filter");
-        rules.setActiveChain("filter", ev.currentTarget.value);
-        rules.reloadTableRules("filter", ev.currentTarget.value);
+        widgets.hideTableMessage(consts.filter);
+        rules.setActiveChain(consts.filter, ev.currentTarget.value);
+        rules.reloadTableRules(consts.filter, ev.currentTarget.value);
     }
 
-    rules.setChainMenu("nat");
+    rules.setChainMenu(consts.nat);
 
     chainMenu = document.getElementById("nat-chain-menu");
     
     chainMenu.onchange = (ev) =>{
-        widgets.hideTableMessage("nat");
-        rules.setActiveChain("nat", ev.currentTarget.value);
-        rules.reloadTableRules("nat", ev.currentTarget.value);
+        widgets.hideTableMessage(consts.nat);
+        rules.setActiveChain(consts.nat, ev.currentTarget.value);
+        rules.reloadTableRules(consts.nat, ev.currentTarget.value);
     }
 
 }

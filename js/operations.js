@@ -1,4 +1,5 @@
 import * as widgets from './widgets.js';
+import * as consts from './constants.js';
 
 let interfaceNames = []
 
@@ -22,7 +23,7 @@ export function flush(table){
     let response;
     
     cockpit.spawn(["iptables", "-t", table, "-F"], {err : "out"})
-    .stream(res=>  widgets.errorMessage("flush table", res));
+    .stream(res=>  widgets.errorMessage(consts.flushTable, res));
 
     return response;
 }
@@ -42,11 +43,11 @@ export function getChains(table){
 export function deleteRule(ruleData){
 
     if(!ruleData || parseInt(ruleData.ruleIndexInChain) <=  0)
-        alert("Error: Rule not found (rule index is invalid).");
+        widgets.errorMessage(consts.deleteRule, consts.invalidIndexMsg);
 
     cockpit.spawn(["iptables", "-t", ruleData.ruleTable,
          "-D", ruleData.ruleChain, ruleData.ruleIndexInChain], {err : "out"})
-    .stream(res=>   widgets.errorMessage("delete rule", res))
+    .stream(res=>   widgets.errorMessage(consts.deleteRule, res))
 
 }
 
@@ -57,7 +58,7 @@ export function getInterfaceNames(){
 
     cockpit.spawn(["ls", "/sys/class/net"])
         .then(res=>   interfaceNames = res.split("\n"))
-        .catch(res => widgets.errorMessage("load system interfaces", res));
+        .catch(res => widgets.errorMessage(consts.loadSystemInt, res));
 }
 
 export function readFile(fileName){

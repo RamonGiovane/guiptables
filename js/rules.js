@@ -1,9 +1,9 @@
 import RuleData from "./operations.js";
 import * as operations from './operations.js'
 import * as widgets from './widgets.js'
+import * as consts from './constants.js'
 
-
-let activeChains = {"filter" : "Show all", "nat" : "Show all"};
+let activeChains = {"filter" : "Show all", "nat": "Show all"};
 
 export function getActiveChain(table){
     return activeChains[table];
@@ -20,9 +20,9 @@ export function setActiveChain(table, chain){
  */
 export function addRulesInTable() {
 
-    loadTableRules("nat");
+    loadTableRules(consts.nat);
 
-    loadTableRules("filter");
+    loadTableRules(consts.filter);
 }
 
 /**Runs 'iptables -t [table] -F' which deletes all table rows then
@@ -38,7 +38,7 @@ export function flushTable(table) {
 }
 
 function loadTableRules(table, chainFilter) {
-    if (chainFilter == "Show all")
+    if (chainFilter == consts.showAll)
         chainFilter = null;
 
     cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
@@ -255,7 +255,7 @@ function createDeleteButton(table, chainName, ruleNumber) {
     icon.setAttributeNode(dataTarget);
 
     icon.addEventListener("click", () =>
-        widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
+        widgets.dangerModal(consts.DeleteRule, () => deleteButtonListener(td.id)));
 
     td.appendChild(icon);
 
@@ -295,7 +295,8 @@ function checkMissingColumns(arr) {
     ///Checking if target is missing
     let copy = arr.slice(0, 3);
 
-    if (copy[2] == "all" || copy[2] == "tcp" || copy[2] == "udp")
+    if (copy[2] == consts.all || copy[2] == consts.tcp 
+        || copy[2] == consts.udp || copy[2] == consts.icmp)
         arr.splice(2, 0, "--");
 
     ///
@@ -308,10 +309,10 @@ function checkMissingColumns(arr) {
 function formatColumn(element) {
 
     if (element == "*")
-        return "any"
+        return consts.any
 
-    if (element == "0.0.0.0/0")
-        return "anywhere";
+    if (element == consts.zeroAddr)
+        return consts.anywhere;
 
     return element;
 
