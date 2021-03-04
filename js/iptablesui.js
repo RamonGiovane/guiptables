@@ -1,4 +1,5 @@
 
+import { getInterfaceNames } from './operations.js';
 import * as rules from './rules.js'
 import * as widgets from './widgets.js'
 
@@ -9,6 +10,9 @@ document.addEventListener('readystatechange', event => {
 
 
 function registerEventListeners(){
+
+    getInterfaceNames();
+
     document.getElementById("nat-save-changes").onclick = function(){
         filterTableByChain("filter", "POSTROUTING");
     };
@@ -23,9 +27,29 @@ function registerEventListeners(){
     
     document.getElementById("nat-flush-table").onclick = function(){
         widgets.dangerModal("Delete ALL nat rules", () => rules.flushTable("nat"));
-    }; 
-
+    };
+    
+    setChainMenus();
    
+}
+
+function setChainMenus(){
+    
+    rules.setChainMenu("filter");
+
+    let chainMenu = document.getElementById("filter-chain-menu");
+    chainMenu.onchange = (ev) =>{
+        debugger
+        rules.reloadTableRules("filter", ev.currentTarget.value);
+    }
+
+    rules.setChainMenu("nat");
+
+    chainMenu = document.getElementById("nat-chain-menu");
+    chainMenu.onchange = (ev) =>{
+        rules.reloadTableRules("nat", ev.currentTarget.value);
+    }
+
 }
 
 function start(){

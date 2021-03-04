@@ -18,7 +18,8 @@
 
     <span id="message-board"></span>
 
-    <h3>Active Rules</h3>
+    
+    <h3>&nbsp;&nbsp;<i class="fa fa-tasks">&nbsp;</i>guiptables</h3>
 
 
     <div class="panel panel-default" id="networking-interfaces">
@@ -26,6 +27,11 @@
         <div class="panel-heading">
             <h2 class="panel-title">Filter</h2>
             <div class="panel-actions">
+                <label for="filter-chain-menu">Chain:</label>
+
+                <select id="filter-chain-menu" class="ct-select">
+                </select>
+
                 <button id="filter-save-changes" class="pf-c-button pf-m-secondary network-privileged"
                     data-test-stable="yes">Save Changes</button>
 
@@ -61,6 +67,12 @@
             <h2 class="panel-title">NAT</h2>
             <div class="panel-actions">
                 <div class="panel-actions">
+
+                    <label for="nat-chain-menu">Chain:</label>
+
+                    <select id="nat-chain-menu" class="ct-select">
+                    </select>
+
                     <button id="nat-save-changes" class="pf-c-button pf-m-secondary network-privileged"
                         data-test-stable="yes">Save Changes</button>
 
@@ -135,21 +147,21 @@
                 <div>
                     <div>
                         <input class="form-check-input" type="checkbox" value="" id="source-rule-check">
-            
-                        <label for="source-rule-menu">Input Interface</label>
 
-                        <select id="source-rule-menu" class="ct-select">
-                            <option value="lo-item">lo</option>
+                        <label for="source-rule-menu">Input Interface:</label>
+
+                        <select id="intput-interface-rule-menu" class="ct-select">
+                            <option value="lo">lo</option>
                         </select>
                     </div>
 
                     <div>
                         <input class="form-check-input" type="checkbox" value="" id="output-interface-rule-check">
-            
-                         <label for="output-interface-rule-menu">Output Interface</label>
+
+                        <label for="output-interface-rule-menu">Output Interface:</label>
 
                         <select id="output-interface-rule-menu" class="ct-select">
-                            <option value="lo-item">lo</option>
+                            <option value="lo">lo</option>
                         </select>
                     </div>
 
@@ -159,16 +171,17 @@
 
                 <div>
                     <input class="form-check-input" type="checkbox" value="" id="protocol-rule-check">
-            
-                    <label for="protocol-rule-menu">Protocol</label>
+
+                    <label for="protocol-rule-menu">Protocol:</label>
 
                     <select id="protocol-rule-menu" class="ct-select">
-                        <option value="tcp-item">tcp</option>
-                        <option value="udp-item">udp</option>
-                        <option value="icmp-item">icmp</option>
+                        <option value="">all (default)</option>
+                        <option value="tcp">tcp</option>
+                        <option value="udp">udp</option>
+                        <option value="icmp">icmp</option>
                     </select>
 
-                    <label for="protocol-rule-opts-text">Options</label>
+                    <label for="protocol-rule-opts-text">Options:</label>
 
                     <input class="form-check-input" type="text" placeholder="--dport 80" id="protocol-rule-opts-text">
 
@@ -176,14 +189,15 @@
 
 
                 <hr>
-                
+
 
                 <div>
                     <input class="form-check-input" type="checkbox" value="" id="input-interface-rule-check">
-            
+
                     <label for="input-interface-rule-menu">Source:</label>
 
-                    <input class="form-check-input" type="text" placeholder="127.0.0.1" id="output-interface-rule-check">
+                    <input class="form-check-input" type="text" placeholder="127.0.0.1"
+                        id="output-interface-rule-check">
 
                     <br>
 
@@ -191,25 +205,27 @@
 
                     <label for="destination-rule-menu">Destination:</label>
 
-                    <input class="form-check-input" type="text" placeholder="192.168.0.1" id="output-interface-rule-check">
+                    <input class="form-check-input" type="text" placeholder="192.168.0.1"
+                        id="output-interface-rule-check">
 
                 </div>
-                
+
                 <hr>
 
                 <div>
                     <input class="form-check-input" type="checkbox" value="" id="job-rule-check">
-            
+
                     <label for="job-rule-menu">Action:</label>
 
                     <select id="job-rule-menu" class="ct-select">
-                        <option value="lo-item">ACCEPT</option>
-                        <option value="lo-item">DROP</option>
-                        <option value="lo-item">REJECT</option>
+                        <option value="ACCEPT">ACCEPT</option>
+                        <option value="DROP">DROP</option>
+                        <option value="REJECT">REJECT</option>
+                        <option value="LOG">LOG</option>
                     </select>
 
                 </div>
-                
+
                 <hr>
 
                 <div class="modal-footer">

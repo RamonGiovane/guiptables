@@ -2,6 +2,9 @@ import RuleData from "./operations.js";
 import * as operations from './operations.js'
 import * as widgets from './widgets.js'
 
+let activeFilterChain;
+let activeNATChain;
+
 /**Runs 'iptables -t [table] -L -v' and fills the HTML table with the response
  * With this command is possible to fetch general info of the 
  * rules set on each iptables layer.
@@ -25,15 +28,19 @@ export function flushTable(table){
         widgets.errorMessage("flush table", response);
 }
 
-function loadTableRules(table){
+function loadTableRules(table, chainFilter){
+    if(chainFilter == "Show all")
+        chainFilter = null;
+
     cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
-    .then(res=>  processResponse(res, table))
+    .then(res=>  processResponse(res, table, chainFilter))
     .catch(err=> alert(err))
    
 }
 
-function reloadTableRules(table){
+export function reloadTableRules(table, chainFilter){
 
+  
     //Destroying rules
     let rules = document.getElementById(table + "-rules-table");
   
@@ -43,15 +50,15 @@ function reloadTableRules(table){
     for(let i = children.length -1; i >=0; i--)
         children[i].remove();
  
-    
-    loadTableRules(table);
+    debugger
+    loadTableRules(table, chainFilter);
 }
 
 function splitChainName(element){
     return element.split(" ")[1];
 }
 
-function processResponse(data, table)
+function processResponse(data, table, chainFilter)
 {
 
     let text = data.split("\n");
@@ -62,13 +69,16 @@ function processResponse(data, table)
     
     let chainName;
 
+    //Setting rows
     text.forEach(element => {
-        
 
         if(element.startsWith("Chain")){
             chainName = splitChainName(element);
             return;
         }
+            
+        if(chainFilter && chainName != chainFilter)
+            return;
             
         if(element.startsWith(" pkts"))
             return;
@@ -89,6 +99,19 @@ function processResponse(data, table)
         fillEmptyTable(table)
     }
 
+}
+
+export function setChainMenu(table){
+    let menu = document.getElementById(table + "-chain-menu");
+    menu.innerHTML = "";
+
+    let chains = operations.getChains(table);
+    chains.forEach(c => {
+        menu.innerHTML +=
+        `
+        <option value="${c}">${c}</option>
+        `
+    });
 }
 
 function splitRowAndSetRule(rule, table, chainName, ruleNumber){
@@ -192,7 +215,8 @@ function createAddButton(table, chainName, ruleNumber){
    icon.setAttributeNode(dataTarget);
 
    icon.addEventListener("click", () => 
-    widgets.ruleModal("Add new rule", () => deleteButtonListener(td.id)));
+
+   widgets.ruleModal("Add new rule", operations.getInterfaceNames(), null));
    
    td.appendChild(icon);
 
@@ -220,22 +244,50 @@ function createDeleteButton(table, chainName, ruleNumber){
    icon.setAttributeNode(dataTarget);
 
    icon.addEventListener("click", () => 
-    widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
+   widgets.dangerModal("Delete rule", () => deleteButtonListener(td.id)));
    
    td.appendChild(icon);
 
    return td;
 }
 
+/**Intended to execute when user clicks on a trash can icon */
 function deleteButtonListener(id){
     
+
+
     let rule = extractRuleFromId(id);
     operations.deleteRule(rule);
     reloadTableRules(rule.ruleTable);
 }
 
+function loadAddWidgetData(){
+
+    debugger
+
+    operations.getInterfaceNames("input", showInterfaceNames);
+    operations.getInterfaceNames("output", showInterfaceNames);
+}
+
+function showInterfaceNames(tagName, interfaceNames){
+    
+    let selectMenu = document.getElementById(tagName + "-interface-rule-menu");
+
+    interfaceNames.split(" ").forEach(i => {
+        let option = document.createElement("option");
+        
+        let valueAttr = document.createAttribute("value");
+        valueAttr.value = i;
+
+        option.setAttributeNode(valueAttr);
+
+        selectMenu.appendChild(option);
+    });
+}
+
 function extractRuleFromId(id){
     
+    debugger
     let rule = new RuleData();
 
     let data = id.split("-");
@@ -289,7 +341,7 @@ function fillEmptyTable(table){
            
         `
             <tr>
-               <td colspan="12">No active rules</td>
+               <td colspan="13">No active rules</td>
             </tr>
         `
     

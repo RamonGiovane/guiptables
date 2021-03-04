@@ -1,17 +1,31 @@
-import * as bootstrap from "../bootstrap/bootstrap.min.js";
 
-export function dangerModal(title, confirmCallBack){
+export function dangerModal(title, confirmCallback){
             
     document.getElementById("danger-modal-title").innerText = title;
-    document.getElementById("danger-confirm-button").onclick = confirmCallBack;    
+    document.getElementById("danger-confirm-button").onclick = confirmCallback;    
 
 }
 
-export function ruleModal(title, confirmCallBack){
-            
-    document.getElementById("rule-modal-title").innerText = title;
-    document.getElementById("rule-confirm-button").onclick = confirmCallBack;    
 
+export function ruleModal(title, interfaces, applyCallback){
+
+    let interfacesOptionsHTML = "";
+    
+    interfaces.forEach(i => {
+        
+        if(!i) return;
+
+        interfacesOptionsHTML += 
+        `
+        <option value="${i}-item">${i}</option>
+        `
+    });
+
+    document.getElementById("rule-modal-title").innerText = title;
+    document.getElementById("rule-confirm-button").onclick = applyCallback; 
+    document.getElementById("intput-interface-rule-menu").innerHTML = interfacesOptionsHTML;
+    document.getElementById("output-interface-rule-menu").innerHTML = interfacesOptionsHTML;
+    
 }
 
 
