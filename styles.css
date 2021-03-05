@@ -18,6 +18,10 @@
     color: #007080 !important;
 }
 
+.grey-plus{
+    color: grey !important;
+}
+
 hr{
     margin: 20px 0;
 }

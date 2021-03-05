@@ -1,5 +1,6 @@
 
 import * as consts from './constants.js';
+import * as rules from './rules.js';
 
 export function dangerModal(title, confirmCallback){
             
@@ -8,15 +9,19 @@ export function dangerModal(title, confirmCallback){
 
 }
 
-export function ruleModal(interfaceNames, table, chain = null) {
+export function ruleModal(interfaceNames, table, applyCallback, chain = null) {
 
 
     if (chain == null)
-        chain = document.getElementById(table + "-chain-menu").value;
+        chain = rules.getActiveChain(table);
 
 
 
     loadRuleModal(consts.AddNewRule, table, chain, interfaceNames, null);
+
+    document.getElementById("rule-confirm-button").onclick =  applyCallback;
+
+
 }
 
 function loadRuleModal(title, table, chain, interfaces, applyCallback){
@@ -29,7 +34,7 @@ function loadRuleModal(title, table, chain, interfaces, applyCallback){
 
         interfacesOptionsHTML += 
         `
-        <option value="${i}-item">${i}</option>
+        <option value="${i}">${i}</option>
         `
     });
 
@@ -42,7 +47,7 @@ function loadRuleModal(title, table, chain, interfaces, applyCallback){
     document.getElementById("badge-table").innerText = "Table: " + table;
     document.getElementById("badge-chain").innerText = "Chain: " + chain;
     document.getElementById("rule-confirm-button").onclick = applyCallback; 
-    document.getElementById("intput-interface-rule-menu").innerHTML = interfacesOptionsHTML;
+    document.getElementById("input-interface-rule-menu").innerHTML = interfacesOptionsHTML;
     document.getElementById("output-interface-rule-menu").innerHTML = interfacesOptionsHTML;
  
     
@@ -60,7 +65,7 @@ export function cancelRuleModal(){
 
 
 export function errorMessage(operationTried, message){
- debugger
+ 
     let div = document.createElement("div");
     div.className = "alert alert-danger";
     div.innerHTML =

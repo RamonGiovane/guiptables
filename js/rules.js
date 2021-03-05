@@ -1,7 +1,9 @@
-import RuleData from "./operations.js";
+
 import * as operations from './operations.js'
 import * as widgets from './widgets.js'
 import * as consts from './constants.js'
+import RuleData from './model/RuleData.js';
+import RuleRecord from './model/RuleRecord.js';
 
 let activeChains = {"filter" : "Show all", "nat": "Show all"};
 
@@ -63,6 +65,51 @@ export function reloadTableRules(table, chainFilter) {
     loadTableRules(table, chainFilter);
 }
 
+export function applyRuleCallback(table, chain = null, ruleBelow = null) {
+
+    if(chain == null)
+        chain = getActiveChain(table);
+
+    let record = new RuleRecord();
+
+    record.chain = chain;
+    record.table = table;
+    record.ruleBelow = ruleBelow;
+
+
+
+    let checkBox = document.getElementById("input-interface-rule-check");
+    if (checkBox.checked)
+        record.inputInterface = document.getElementById("input-interface-rule-menu").value;
+
+
+    checkBox = document.getElementById("output-interface-rule-check");
+    if (checkBox.checked)
+        record.outputInterface = document.getElementById("output-interface-rule-menu").value;
+
+    checkBox = document.getElementById("protocol-rule-check");
+    if (checkBox.checked) {
+        record.protocol = document.getElementById("protocol-rule-menu").value;
+        record.protocolOptions = document.getElementById("protocol-rule-opts-text").value;
+    }
+    checkBox = document.getElementById("source-rule-check");
+    if (checkBox.checked)
+        record.source = document.getElementById("source-rule-text").value;
+
+    checkBox = document.getElementById("destination-rule-check");
+    if (checkBox.checked)
+        record.source = document.getElementById("destination-rule-text").value;
+
+    checkBox = document.getElementById("job-rule-check");
+    if (checkBox.checked)
+        record.source = document.getElementById("job-rule-menu").value;
+
+    operations.applyRule(record, 
+        () => reloadTableRules(table, getActiveChain(table)),
+        () => widgets.ruleModal(operations.getInterfaceNames(), table, chain), 
+        () => applyRuleCallback(table, chain, ruleBelow));
+}
+
 function splitChainName(element) {
     return element.split(" ")[1];
 }
@@ -107,13 +154,14 @@ function processResponse(data, table, chainFilter) {
         fillEmptyTable(table)
     }
 
-}
+}   
+
 
 export function setChainMenu(table) {
     let menu = document.getElementById(table + "-chain-menu");
     menu.innerHTML = "";
 
-    let chains = operations.getChains(table);
+    let chains = consts.chainsList[table];
     chains.forEach(c => {
         menu.innerHTML +=
             `
@@ -204,12 +252,28 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber) {
 }
 
 function createAddButton(table, chainName, ruleNumber) {
+   
+    
+   
     let td = document.createElement("td");
     td.id = `add-${table}-${chainName}-${ruleNumber}`;
 
-
     let icon = document.createElement("i");
+    
+    if(activeChains[table] == consts.showAll){
+        icon.className = "fa fa-plus-circle grey-plus";
+        td.appendChild(icon);
+        
+        icon.onclick = () =>{
+            widgets.tableMessage(table, consts.selectChainMsg);
+        };
+         
+        return td;
+    }
+    
+    
     icon.className = "fa fa-plus-circle";
+
 
 
     let dataToogle = document.createAttribute("data-toggle");
@@ -224,7 +288,10 @@ function createAddButton(table, chainName, ruleNumber) {
 
     icon.addEventListener("click", () =>
 
-        widgets.ruleModal(operations.getInterfaceNames(), table, chainName)
+        widgets.ruleModal(operations.getInterfaceNames(),
+         table, 
+         () => applyRuleCallback(table, chainName, ruleNumber),
+         chainName)
     );
 
     td.appendChild(icon);

@@ -14,6 +14,11 @@ export const zeroAddr = "0.0.0.0/0";
 
 //These might be translated
 //Estes poderiam ser traduzidos
+export const chainsList = 
+    {
+        "filter" : ["Show all", "INPUT", "FORWARD", "OUTPUT"],
+        "nat" : ["Show all", "INPUT", "OUTPUT", "PREROUTING", "POSTROUTING"],
+    };
 export const showAll = "Show all";
 export const selectChainMsg = "Please, select a chain first!";
 export const DeleteRule = "Delete rule";
