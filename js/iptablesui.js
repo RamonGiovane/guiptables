@@ -4,11 +4,6 @@ import * as rules from './rules.js'
 import * as widgets from './widgets.js'
 import * as consts from './constants.js'
 
-document.addEventListener('readystatechange', event => {
-    registerEventListeners();
-});
-
-
 
 function registerEventListeners() {
 
@@ -91,10 +86,26 @@ function setChainMenus() {
 
 }
 
-function start() {
+
+function start(){
+    
+    operations.authenticate(
+        ( )=> load(),
+        
+        () => widgets.errorModal("Access denied", 
+            "You must be logged as root in order to access this page.")        
+        );
+    
+    
+}
+function load() {
+
 
     rules.addRulesInTable();
 }
 
-
+document.addEventListener('readystatechange', event => {
+    registerEventListeners();
+    }
+);
 start();

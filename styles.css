@@ -26,10 +26,16 @@ hr{
     margin: 20px 0;
 }
 
-
+#form-input{
+    margin-left: 100px !important;
+}
 .table-message{
     color:  #c9190b !important;
     margin-right: 15px;
+}
+
+.ruleModal label{
+    font-weight:  bold  !important;
 }
 
 

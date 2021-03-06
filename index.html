@@ -27,7 +27,7 @@
         <div class="panel-heading">
             <h2 class="panel-title">Filter</h2>
             <div class="panel-actions">
-                
+
                 <span class="table-message" id="filter-message"></span>
 
                 <label for="filter-chain-menu">Chain:</label>
@@ -36,17 +36,14 @@
                 </select>
 
                 <button id="filter-add-rule" class="pf-c-button pf-m-secondary network-privileged"
-                    data-target="#ruleModal"
-                    data-toggle="modal" 
-                    data-test-stable="yes">
+                    data-target="#ruleModal" data-toggle="modal" data-test-stable="yes">
                     <i class="fa fa-plus-circle"></i>&nbsp; Add rule
                 </button>
 
-                <button id="filter-flush-table" 
-                    class="pf-c-button pf-m-danger network-privileged"
-                    data-toggle="modal" data-target="#dangerModal"  data-test-stable="yes">
+                <button id="filter-flush-table" class="pf-c-button pf-m-danger network-privileged" data-toggle="modal"
+                    data-target="#dangerModal" data-test-stable="yes">
                     <i class="fa fa-trash"></i>&nbsp;Flush table
-                </button>    
+                </button>
             </div>
         </div>
 
@@ -89,9 +86,9 @@
                         <i class="fa fa-plus-circle"></i>&nbsp; Add rule
                     </button>
 
-                   
-                    <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged"
-                    data-toggle="modal" data-target="#dangerModal"  data-test-stable="yes">
+
+                    <button id="nat-flush-table" class="pf-c-button pf-m-danger network-privileged" data-toggle="modal"
+                        data-target="#dangerModal" data-test-stable="yes">
                         <i class="fa fa-trash"></i>&nbsp;Flush table
                     </button>
 
@@ -122,6 +119,7 @@
 
     </div>
 
+    <!-- Danger Modal -->
     <div id="dangerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dangerModalLabel"
         aria-hidden="true">
 
@@ -142,6 +140,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="errorModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>
+                        <i class="fa fa-times-circle"></i>
+                        <span id="error-modal-title">
+                            Error
+                        </span>
+                    </h4>
+                </div>
+                <div id="error-modal-message" class="modal-body">
+                    <strong>Something went wrong</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
     <div id="ruleModal" class="modal fade" tabindex="0" role="dialog" aria-labelledby="ruleModalLabel"
         aria-hidden="true">
 
@@ -164,21 +185,21 @@
                     <div>
                         <input class="form-check-input" type="checkbox" value="" id="input-interface-rule-check">
 
-                        <label for="input-interface-rule-menu">Input Interface:</label>
+                        <label for="input-interface-rule-menu">Input</label>
 
                         <select id="input-interface-rule-menu" class="ct-select">
                             <option value="lo">lo</option>
                         </select>
-                    </div>
 
-                    <div>
+
                         <input class="form-check-input" type="checkbox" value="" id="output-interface-rule-check">
 
-                        <label for="output-interface-rule-menu">Output Interface:</label>
+                        <label for="output-interface-rule-menu">Output</label>
 
                         <select id="output-interface-rule-menu" class="ct-select">
                             <option value="lo">lo</option>
                         </select>
+
                     </div>
 
                 </div>
@@ -210,10 +231,9 @@
                 <div>
                     <input class="form-check-input" type="checkbox" value="" id="source-rule-check">
 
-                    <label for="source-rule-menu">Source:</label>
+                    <label for="source-rule-text">Source:</label>
 
-                    <input class="form-check-input" type="text" placeholder="127.0.0.1"
-                        id="source-rule-text">
+                    <input class="form-check-input" type="text" placeholder="127.0.0.1" id="source-rule-text">
 
                     <br>
 
@@ -221,8 +241,7 @@
 
                     <label for="destination-rule-text">Destination:</label>
 
-                    <input class="form-check-input" type="text" placeholder="192.168.0.1"
-                        id="destination-rule-text">
+                    <input class="form-check-input" type="text" placeholder="192.168.0.1" id="destination-rule-text">
 
                 </div>
 

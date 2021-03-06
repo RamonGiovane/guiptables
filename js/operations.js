@@ -4,6 +4,11 @@ import * as consts from './constants.js';
 let interfaceNames = []
 
 
+export function authenticate(onSuccessCallback, onFailureCallback){
+    return  cockpit.spawn(["ls", "/root/"], { err: "out" })
+    .then( () => onSuccessCallback())
+    .catch(() => onFailureCallback());
+}
 export function flush(table) {
     let response;
 
@@ -85,7 +90,10 @@ export function applyRule(ruleRecord, onSuccessCallback) {
 
     if (ruleRecord.protocol && ruleRecord.protocol != "all (default)") {
         args.push(...["-p", ruleRecord.protocol]);
-        args.push(ruleRecord.protocolOptions == null ? "" : ruleRecord.protocolOptions);
+        if(ruleRecord.protocolOptions){
+            let opt = ruleRecord.protocolOptions.split(" ");
+            args.push(... opt);
+        }
     }
 
     if (ruleRecord.source)
@@ -94,7 +102,10 @@ export function applyRule(ruleRecord, onSuccessCallback) {
     if (ruleRecord.destination)
         args.push(...["-d", ruleRecord.destination]);
 
+    if (ruleRecord.action)
+        args.push(...["-j", ruleRecord.action]);
 
+    alert(args);
 
     let gotError = false;
     cockpit.spawn(args, { err: "out" })
@@ -103,7 +114,7 @@ export function applyRule(ruleRecord, onSuccessCallback) {
             res => {
 
                 gotError = true;
-                widgets.errorMessage("apply rule", "Command passed:<br>" + args.join(",") + "<br>Error:<i> " + res + "</i>")
+                widgets.errorMessage("apply rule", "Command passed:<br>" + args.join(" ") + "<br>Error:<i> " + res + "</i>")
             })
         .always(() => {
             if (gotError == false) {

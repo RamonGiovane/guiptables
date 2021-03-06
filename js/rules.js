@@ -98,16 +98,16 @@ export function applyRuleCallback(table, chain = null, ruleBelow = null) {
 
     checkBox = document.getElementById("destination-rule-check");
     if (checkBox.checked)
-        record.source = document.getElementById("destination-rule-text").value;
+        record.destination = document.getElementById("destination-rule-text").value;
 
     checkBox = document.getElementById("job-rule-check");
     if (checkBox.checked)
-        record.source = document.getElementById("job-rule-menu").value;
+        record.action = document.getElementById("job-rule-menu").value;
 
+  
     operations.applyRule(record, 
         () => reloadTableRules(table, getActiveChain(table)),
-        () => widgets.ruleModal(operations.getInterfaceNames(), table, chain), 
-        () => applyRuleCallback(table, chain, ruleBelow));
+        () => widgets.ruleModal(operations.getInterfaceNames(), table, chain))
 }
 
 function splitChainName(element) {
