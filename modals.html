@@ -16,8 +16,8 @@
                 </span>
 
                 <div>
-                    <label for="config-autosave-path">Save path: </label>
-                    <input id="config-autosave-path" class="form-input" type="text">
+                    <label for="config-save-path">Save path: </label>
+                    <input id="config-save-path" class="form-input" type="text">
                     <button id="config-save-button" type="button" data-dismiss="modal"
                         class="btn btn-primary">Save current table</button>
                     <button id="config-load-button" type="button" data-dismiss="modal"
@@ -80,6 +80,27 @@
             </div>
             <div id="error-modal-message" class="modal-body">
                 <strong>Something went wrong</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Modal -->
+<div id="loadModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="loadModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>
+                    <i class="fa fa-check"></i>
+                    <span id="load-modal-title">
+                        Load successful
+                    </span>
+                </h4>
+            </div>
+            <div id="load-modal-message" class="modal-body">
+                <strong>Something went well</strong>
             </div>
         </div>
     </div>

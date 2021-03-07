@@ -1,6 +1,7 @@
 
 import * as consts from './constants.js';
 import * as rules from './rules.js';
+import * as config from './config.js'
 
 export function dangerModal(title, confirmCallback) {
 
@@ -8,6 +9,16 @@ export function dangerModal(title, confirmCallback) {
     document.getElementById("danger-confirm-button").onclick = confirmCallback
 
 
+}
+
+
+export function loadModal(message){
+    document.getElementById("load-modal-message").innerHTML =
+    ` ${message}
+    <br>
+    <strong>Please, reload this page to proceed.</strong>`;
+
+    $("#loadModal").modal();
 }
 
 export function errorModal(title, message) {
@@ -49,7 +60,7 @@ export function raiseInstallationSuccess( ){
     status.style.display = "inline-block";
 }
 
-export function raiseInstallationError( ){
+export function raiseInstallationError(){
     
     let statusError = document.getElementById("install-error");
     statusError.innerHTML = "Something went wrong. Check the <a href='#'>log page</a> for details. <br>Refresh this page to try again." ;
@@ -128,8 +139,39 @@ export function cancelRuleModal() {
     modal.setAttribute('style', 'display: none');
 }
 
+export function settingsModal(){
+    
+    let autosave = document.getElementById("config-autosave-check");
+    let savePath = document.getElementById("config-save-path");
+    let logPath = document.getElementById("config-log-path");
+    let saveBtn = document.getElementById("config-save-button");
+    let loadBtn = document.getElementById("config-load-button");
+    let okBtn = document.getElementById("config-confirm-button");
+    
+    let conf = config.getConfiguration();
+    autosave.value = conf.autoSave;
+    savePath.value = conf.savePath;
+    logPath.value = conf.logPath;
 
+    saveBtn.onclick = () => {
+        config.saveTableState(savePath.value);
+    };
 
+    loadBtn.onclick = () => {
+        config.loadTableState(savePath.value, true);
+    };
+
+    okBtn.onclick = () => {
+        conf.autoSave = autosave.value;
+        conf.savePath = savePath.value;
+        conf.logPath = logPath.value;
+
+        config.saveChanges(conf);
+    };
+
+    
+
+}
 
 export function errorMessage(operationTried, message) {
 
@@ -139,6 +181,24 @@ export function errorMessage(operationTried, message) {
         `
     <span class="pficon pficon-error-circle-o"></span>
     <strong>${consts.FailedTo} ${operationTried}</strong>. ${message} 
+    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">&times Close</button>
+    `;
+
+    let board = document.getElementById("message-board");
+
+    board.appendChild(div);
+
+}
+
+
+export function okMessage(title, message) {
+
+    let div = document.createElement("div");
+    div.className = "alert alert-info alert-dismissible";
+    div.innerHTML =
+        `
+    <span class="fa fa-check"></span>
+    <strong>${title}</strong>. ${message} 
     <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">&times Close</button>
     `;
 

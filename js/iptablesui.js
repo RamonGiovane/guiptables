@@ -3,12 +3,15 @@ import * as operations from './operations.js';
 import * as rules from './rules.js'
 import * as widgets from './widgets.js'
 import * as consts from './constants.js'
+import * as config from './config.js';
 
 
 function registerEventListeners() {
 
     //Pre load interface names
     operations.getInterfaceNames();
+
+    config.loadConfigFile();
 
 
     document.getElementById("filter-flush-table").onclick = function () {
@@ -23,6 +26,8 @@ function registerEventListeners() {
     setChainMenus();
 
     setAddButtons();
+
+    setConfigButton();
 }
 
 function setAddButtons() {
@@ -63,8 +68,6 @@ function setAddButtons() {
 
 function setChainMenus() {
 
-
-    
     rules.setChainMenu(consts.filter);
 
     let chainMenu = document.getElementById("filter-chain-menu");
@@ -87,7 +90,10 @@ function setChainMenus() {
 }
 
     
-    
+function setConfigButton(){
+    let btn = document.getElementById("config-button");
+    btn.onclick = () => widgets.settingsModal(config.getConfiguration());
+}
 
 function start(){
     

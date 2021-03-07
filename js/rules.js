@@ -45,7 +45,7 @@ function loadTableRules(table, chainFilter) {
 
     cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
         .then(res => processResponse(res, table, chainFilter))
-        .catch(err => alert(err))
+        .catch(err => widgets.errorMessage("load " + table + " table"));
 
 }
 

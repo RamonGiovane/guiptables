@@ -1,13 +1,14 @@
 import * as widgets from './widgets.js';
 import * as consts from './constants.js';
+import { reloadTableRules } from './rules.js';
 
 let interfaceNames = []
 
 
-export function authenticate(onSuccessCallback, onFailureCallback){
-    return  cockpit.spawn(["ls", "/root/"], { err: "out" })
-    .then( () => onSuccessCallback())
-    .catch(() => onFailureCallback());
+export function authenticate(onSuccessCallback, onFailureCallback) {
+    return cockpit.spawn(["ls", "/root/"], { err: "out" })
+        .then(() => onSuccessCallback())
+        .catch(() => onFailureCallback());
 }
 export function flush(table) {
     let response;
@@ -90,9 +91,9 @@ export function applyRule(ruleRecord, onSuccessCallback) {
 
     if (ruleRecord.protocol && ruleRecord.protocol != "all (default)") {
         args.push(...["-p", ruleRecord.protocol]);
-        if(ruleRecord.protocolOptions){
+        if (ruleRecord.protocolOptions) {
             let opt = ruleRecord.protocolOptions.split(" ");
-            args.push(... opt);
+            args.push(...opt);
         }
     }
 
@@ -104,8 +105,6 @@ export function applyRule(ruleRecord, onSuccessCallback) {
 
     if (ruleRecord.action)
         args.push(...["-j", ruleRecord.action]);
-
-    alert(args);
 
     let gotError = false;
     cockpit.spawn(args, { err: "out" })
@@ -124,30 +123,111 @@ export function applyRule(ruleRecord, onSuccessCallback) {
 
 }
 
-export function isIptablesInstalled(onTrueCallback, onFalseCallback){
+export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
     let error = false;
-    cockpit.spawn(["iptables", "-L"], {"error":"out"})
-    .catch(() => error = true)
-    .always(() => {
-        if(error)
-            onFalseCallback()
-        else
-           onTrueCallback()
-    });
-}   
+    cockpit.spawn(["iptables", "-L"], { "error": "out" })
+        .catch(() => error = true)
+        .always(() => {
+            if (error)
+                onFalseCallback()
+            else
+                onTrueCallback()
+        });
+}
 
 
-export function installIptables(){
+export function installIptables() {
     let error = false;
     widgets.raiseInstallationStart();
-    cockpit.spawn(["yum", "-y", "install", "iptables"], {"error":"out"})
-    .catch(() => error = true)
-    .always(() => {
-        if(error)
-            widgets.raiseInstallationError();
-        else
-            widgets.raiseInstallationSuccess();
+    cockpit.spawn(["yum", "-y", "install", "iptables"], { "error": "out" })
+        .catch(() => error = true)
+        .always(() => {
+            if (error)
+                widgets.raiseInstallationError();
+            else
+                widgets.raiseInstallationSuccess();
+        });
+}
+
+// export function checkConfigPath(savePath, logPath){
+
+
+// }
+
+export function loadConfigFile(configPath, onSuccessCallback) {
+
+
+    cockpit.file(configPath).read()
+        .done(function (content, tag) {
+            if(content == null)
+                 widgets.errorMessage("load configuration file.", 
+                "Application may not work as expected.<br>File not found.");
+            onSuccessCallback(content, tag)
+        })
+        .fail(function (error) {
+            widgets.errorMessage("load configuration file.", 
+            "Application may not work as expected.<br>" + error);
+        });
+}
+
+export function runIptablesSave(path){
+
+    cockpit.spawn(["iptables-save"], {"err" : "out"})
+    .then((res) =>{
+       
+        saveRulesToPath(res, path);
+    })
+    .catch((res) =>{
+
+            widgets.errorMessage("save tables state", "Error: " + res);
+       
+            
+    });
+}
+
+export function runIptablesRestore(path, requireRefresh){
+
+    cockpit.spawn(["iptables-restore", path], {"err" : "out"})
+    .then(() =>{
+       
+        if(requireRefresh)
+            widgets.loadModal("Tables state restored from " + path);
+        
+    })
+    .catch((res) =>{
+
+            widgets.errorMessage("load tables state", "Error: " + res);
+       
+            
     });
 }
 
 
+function saveRulesToPath(content, path){
+    cockpit.file(path).replace(content)
+    .then((res) =>{
+        widgets.okMessage("Success", "Tables state saved at: " + path);
+    })
+    .catch((res) =>{
+
+        widgets.errorMessage("save tables state", "Error: " + res);
+        
+         
+    });
+}
+
+
+
+// verificar se um caminho existe
+
+// salvar regras com iptables-save
+
+// carregar regras com iptables-restore
+
+// criar pagina de logs
+
+// salvar log depois de uma adição/flush/deleção
+
+// salvar o estado da tabela se autosave tiver ligado depois de um adição/flush/deleção
+
+// criar pacote do programa
