@@ -2,6 +2,7 @@
 import * as operations from './operations.js'
 import * as widgets from './widgets.js'
 import * as consts from './constants.js'
+import * as config from './config.js'
 import RuleData from './model/RuleData.js';
 import RuleRecord from './model/RuleRecord.js';
 
@@ -61,7 +62,6 @@ export function reloadTableRules(table, chainFilter) {
     for (let i = children.length - 1; i >= 0; i--)
         children[i].remove();
 
-    debugger
     loadTableRules(table, chainFilter);
 }
 
@@ -75,8 +75,6 @@ export function applyRuleCallback(table, chain = null, ruleBelow = null) {
     record.chain = chain;
     record.table = table;
     record.ruleBelow = ruleBelow;
-
-
 
     let checkBox = document.getElementById("input-interface-rule-check");
     if (checkBox.checked)
@@ -104,10 +102,9 @@ export function applyRuleCallback(table, chain = null, ruleBelow = null) {
     if (checkBox.checked)
         record.action = document.getElementById("job-rule-menu").value;
 
-  
     operations.applyRule(record, 
         () => reloadTableRules(table, getActiveChain(table)),
-        () => widgets.ruleModal(operations.getInterfaceNames(), table, chain))
+        config.getConfiguration().savePath)
 }
 
 function splitChainName(element) {
@@ -342,7 +339,6 @@ function deleteButtonListener(id) {
 
 function extractRuleFromId(id) {
 
-    debugger
     let rule = new RuleData();
 
     let data = id.split("-");

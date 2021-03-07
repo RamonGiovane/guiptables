@@ -149,7 +149,7 @@ export function settingsModal(){
     let okBtn = document.getElementById("config-confirm-button");
     
     let conf = config.getConfiguration();
-    autosave.value = conf.autoSave;
+    autosave.checked = conf.autoSave;
     savePath.value = conf.savePath;
     logPath.value = conf.logPath;
 
@@ -162,7 +162,8 @@ export function settingsModal(){
     };
 
     okBtn.onclick = () => {
-        conf.autoSave = autosave.value;
+        
+        conf.autoSave = autosave.checked;
         conf.savePath = savePath.value;
         conf.logPath = logPath.value;
 

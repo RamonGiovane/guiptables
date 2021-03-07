@@ -29,3 +29,11 @@ export function loadTableState(path, requireRefresh = null){
     operations.runIptablesRestore(
         path == null ? settings.savePath : path, requireRefresh);
 }
+
+export function saveChanges(config){
+    operations.saveConfig(config, conf.path);
+}
+
+export function getConfPath(){
+    return conf.path;
+}

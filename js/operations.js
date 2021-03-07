@@ -10,6 +10,7 @@ export function authenticate(onSuccessCallback, onFailureCallback) {
         .then(() => onSuccessCallback())
         .catch(() => onFailureCallback());
 }
+
 export function flush(table) {
     let response;
 
@@ -71,11 +72,10 @@ export function filterTableByChain(table, chain) {
         return element.textContent.includes(chain);
     });
 
-    debugger
     return a;
 }
 
-export function applyRule(ruleRecord, onSuccessCallback) {
+export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
     let args = ["iptables", "-t", ruleRecord.table];
 
     if (ruleRecord.ruleBelow)
@@ -117,7 +117,10 @@ export function applyRule(ruleRecord, onSuccessCallback) {
             })
         .always(() => {
             if (gotError == false) {
-                onSuccessCallback()
+                onSuccessCallback();
+                
+                if(autoSavePath)
+                    runIptablesSave(autoSavePath);
             }
         });
 
@@ -149,10 +152,6 @@ export function installIptables() {
         });
 }
 
-// export function checkConfigPath(savePath, logPath){
-
-
-// }
 
 export function loadConfigFile(configPath, onSuccessCallback) {
 
@@ -174,7 +173,7 @@ export function runIptablesSave(path){
 
     cockpit.spawn(["iptables-save"], {"err" : "out"})
     .then((res) =>{
-       
+        
         saveRulesToPath(res, path);
     })
     .catch((res) =>{
@@ -184,24 +183,6 @@ export function runIptablesSave(path){
             
     });
 }
-
-export function runIptablesRestore(path, requireRefresh){
-
-    cockpit.spawn(["iptables-restore", path], {"err" : "out"})
-    .then(() =>{
-       
-        if(requireRefresh)
-            widgets.loadModal("Tables state restored from " + path);
-        
-    })
-    .catch((res) =>{
-
-            widgets.errorMessage("load tables state", "Error: " + res);
-       
-            
-    });
-}
-
 
 function saveRulesToPath(content, path){
     cockpit.file(path).replace(content)
@@ -216,6 +197,41 @@ function saveRulesToPath(content, path){
     });
 }
 
+export function runIptablesRestore(path, requireRefresh){
+    
+    let errorMessage;
+    cockpit.spawn(["iptables-restore", path], {"err" : "out"})
+    .stream((res) =>{
+       
+        errorMessage = res;
+        
+    })
+    .always((res) =>{
+        if(errorMessage)
+            widgets.errorMessage("load tables state", "Error: " + errorMessage);
+        else
+            if(requireRefresh)
+            widgets.loadModal("Tables state restored from " + path);
+            
+    });
+}
+
+export function saveConfig(config, path){
+
+    let str = JSON.stringify(config).split('\",\"').join('\",\n\"');
+    cockpit.file(path).replace(str)
+    .then(() =>{       
+        
+        widgets.okMessage("Settings saved", "Configurations stored at " + path);
+    })
+    .catch((res)=>{
+        widgets.errorMessage("save settings", "Error: " + res)
+    });
+}
+
+
+
+
 
 
 // verificar se um caminho existe
@@ -225,9 +241,5 @@ function saveRulesToPath(content, path){
 // carregar regras com iptables-restore
 
 // criar pagina de logs
-
-// salvar log depois de uma adição/flush/deleção
-
-// salvar o estado da tabela se autosave tiver ligado depois de um adição/flush/deleção
 
 // criar pacote do programa

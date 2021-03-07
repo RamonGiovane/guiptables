@@ -1,6 +1,3 @@
-{
-    "savePath": "/usr/share/cockpit/ippit/saves/save.dat",
-    "logPath": "/usr/share/cockpit/ippit/saves/log.dat",
-    "autoSave": "false"
-
-}
+{"savePath":"/usr/share/cockpit/ippit/saves/save.dat",
+"logPath":"/usr/share/cockpit/ippit/saves/log.dat",
+"autoSave":true}

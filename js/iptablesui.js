@@ -92,7 +92,7 @@ function setChainMenus() {
     
 function setConfigButton(){
     let btn = document.getElementById("config-button");
-    btn.onclick = () => widgets.settingsModal(config.getConfiguration());
+    btn.onclick = () => widgets.settingsModal();
 }
 
 function start(){
