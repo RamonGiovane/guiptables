@@ -86,9 +86,13 @@ function setChainMenus() {
 
 }
 
+    
+    
 
 function start(){
     
+    $('#modal-content').load('./modals.html');
+
     operations.authenticate(
         ( )=> load(),
         
@@ -100,9 +104,15 @@ function start(){
 }
 function load() {
 
-
-    rules.addRulesInTable();
+    
+    operations.isIptablesInstalled(
+        () => rules.addRulesInTable(), 
+        () => widgets.installationModal(
+            () => operations.installIptables())
+    );
 }
+
+
 
 document.addEventListener('readystatechange', event => {
     registerEventListeners();

@@ -123,3 +123,29 @@ export function applyRule(ruleRecord, onSuccessCallback) {
         });
 
 }
+
+export function isIptablesInstalled(onTrueCallback, onFalseCallback){
+    let error = false;
+    cockpit.spawn(["iptables", "-L"], {"error":"out"})
+    .catch(() => error = true)
+    .always(() => {
+        if(error)
+            onFalseCallback()
+        else
+           onTrueCallback()
+    });
+}   
+
+
+export function installIptables(){
+    let error = false;
+    widgets.raiseInstallationStart();
+    cockpit.spawn(["yum", "-y", "install", "iptables"], {"error":"out"})
+    .catch(() => error = true)
+    .always(() => {
+        if(error)
+            widgets.raiseInstallationError();
+        else
+            widgets.raiseInstallationSuccess();
+    });
+}

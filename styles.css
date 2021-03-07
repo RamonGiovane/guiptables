@@ -38,5 +38,32 @@ hr{
     font-weight:  bold  !important;
 }
 
+#install-status{
+    margin-left: 5px !important;
+    color:  #06c !important;
+}
+
+#install-status-icon{
+    margin-left: 20px !important;
+    color:  #06c !important;
+}
+
+#install-error{
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+    color:  #c9190b !important;
+}
+#install-error a{
+    text-decoration: underline;
+}
+
+.refresh-anime{
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }    
 
 

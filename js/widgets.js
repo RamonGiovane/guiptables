@@ -18,6 +18,51 @@ export function errorModal(title, message) {
     $("#errorModal").modal();
 }
 
+export function installationModal(buttonCallback) {
+
+    document.getElementById("install-modal-button").onclick = buttonCallback;
+   
+    $("#installModal").modal();
+}
+
+export function raiseInstallationStart( ){
+    
+    document.getElementById("install-modal-button").disabled = "disabled";
+
+    let status = document.getElementById("install-status");
+    status.innerText = "Installing... Please wait.";
+    status.style.display = "inline-block";
+
+    let statusIcon = document.getElementById("install-status-icon");
+    statusIcon.className = "fa fa-circle-o-notch refresh-anime";
+    status.style.display = "inline-block";
+}
+
+export function raiseInstallationSuccess( ){
+    
+    let status = document.getElementById("install-status");
+    status.innerText = "Done! Please refresh this page.";
+    status.style.display = "inline-block";
+
+    let statusIcon = document.getElementById("install-status-icon");
+    statusIcon.className = "fa fa-check";
+    status.style.display = "inline-block";
+}
+
+export function raiseInstallationError( ){
+    
+    let statusError = document.getElementById("install-error");
+    statusError.innerHTML = "Something went wrong. Check the <a href='#'>log page</a> for details. <br>Refresh this page to try again." ;
+    statusError.style.display = "inline-block";
+
+    let status = document.getElementById("install-status");
+    status.style.display = "none";
+
+    let statusIcon = document.getElementById("install-status-icon");
+    statusIcon.style.display = "none";
+
+}
+
 export function ruleModal(interfaceNames, table, applyCallback, chain = null) {
 
 
