@@ -67,3 +67,23 @@ hr{
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }    
 
 
+#config-button{
+    display: inline;
+    font-size: medium !important;
+    width: 50px !important;
+    height: 30px !important;
+    float: right; 
+    border: 1px solid #06c;
+    border-radius: 2px;
+}
+#config-save-button{
+    margin-left: 5px !important;
+}
+
+#configModal .form-input{
+    width:  250px !important;
+    font-size: smaller !important;
+}
+#configModal button{
+    font-size: medium !important;
+}
