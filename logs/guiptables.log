@@ -31,3 +31,8 @@ ERR! iptables v1.8.4 (nf_tables): Can't use -o with INPUT
 Try 'iptables -h' or 'iptables --help' for more information.
 
 -
+2021-03-08 02:30:22
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/guiptables/settings.json
+-

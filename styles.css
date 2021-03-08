@@ -88,3 +88,7 @@ hr{
 #configModal button{
     font-size: small !important;
 }
+#logModal .modal-content{
+    max-height: 85vh;
+    overflow: auto;
+}
