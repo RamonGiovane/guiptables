@@ -92,3 +92,8 @@ hr{
     max-height: 85vh;
     overflow: auto;
 }
+
+#info{
+    font-size: small;
+    margin-bottom: 15px;
+}
