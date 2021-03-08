@@ -73,22 +73,6 @@ export function raiseInstallationError(){
     statusIcon.style.display = "none";
 
 }
-
-export function ruleModal(interfaceNames, table, applyCallback, chain = null) {
-
-
-    if (chain == null)
-        chain = rules.getActiveChain(table);
-
-
-
-    loadRuleModal(consts.AddNewRule, table, chain, interfaceNames, null);
-
-    document.getElementById("rule-confirm-button").onclick = applyCallback;
-
-
-}
-
 export function logModal(contentArr){
 
     contentArr = contentArr.reverse();
@@ -117,6 +101,26 @@ export function logModal(contentArr){
     });
 
 }   
+
+export function ruleModal(interfaceNames, table, applyCallback, chain, ruleNumber) {
+
+
+    if (chain == null)
+        chain = rules.getActiveChain(table);
+
+    let title;
+    if(ruleNumber)
+        title = "Insert new rule above #" + ruleNumber;
+    else
+        title = consts.AddNewRule;
+
+    loadRuleModal(title, table, chain, interfaceNames, null);
+
+    document.getElementById("rule-confirm-button").onclick = applyCallback;
+
+
+}
+
 function loadRuleModal(title, table, chain, interfaces, applyCallback) {
 
     let interfacesOptionsHTML = "";

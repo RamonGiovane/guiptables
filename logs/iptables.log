@@ -90,3 +90,131 @@ Trying to: Flush filter table
 #iptables -t filter -F
 OK! Table flushed.
 -
+2021-03-08 01:30:56
+Trying to: Insert rule above 1
+#iptables -t nat -I POSTROUTING 1 -i lo -p tcp -d youtube.com -j ACCEPT
+ERR! iptables v1.8.4 (nf_tables): Can't use -i with POSTROUTING
+
+Try 'iptables -h' or 'iptables --help' for more information.
+
+-
+2021-03-08 01:31:27
+Trying to: Insert rule above 1
+#iptables -t nat -I POSTROUTING 1 -o lo -p tcp -d youtube.com -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:31:29
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:32:43
+Trying to: Insert rule above 2
+#iptables -t nat -I POSTROUTING 2 -o enp0s3 -p icmp -s google.com -d youtube.com -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:32:45
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:32:53
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:33:01
+Trying to: Add new rule
+#iptables -t nat -A POSTROUTING -o enp0s3 -p icmp -s google.com -d youtube.com -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:33:02
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:40:46
+Trying to: Insert rule above 1
+#iptables -t nat -I POSTROUTING 1 -o enp0s3 -p icmp -s google.com -d youtube.com -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:40:50
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:41:36
+Trying to: Add new rule
+#iptables -t nat -A INPUT
+OK! Rule applied
+-
+2021-03-08 01:41:38
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:42:33
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:43:13
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:44:07
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:44:20
+Trying to: Add new rule
+#iptables -t filter -A INPUT -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:44:39
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:44:58
+Trying to: Add new rule
+#iptables -t filter -A INPUT -j ACCEPT
+OK! Rule applied
+-
+2021-03-08 01:45:04
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:45:15
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:51:28
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:51:54
+Trying to: Add new rule
+#iptables -t filter -A OUTPUT -o enp0s3
+OK! Rule applied
+-
+2021-03-08 01:52:06
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:52:18
+Trying to: Add new rule
+#iptables -t filter -A FORWARD -o enp0s3
+OK! Rule applied
+-
+2021-03-08 01:52:18
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-

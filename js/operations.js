@@ -171,6 +171,7 @@ export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
 
                 result = "Rule applied";
 
+                debugger
                 if (autoSavePath)
                     runIptablesSave(autoSavePath);
             }

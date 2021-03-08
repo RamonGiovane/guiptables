@@ -99,9 +99,10 @@ export function applyRuleCallback(table, chain = null, ruleBelow = null) {
     if (checkBox.checked)
         record.action = document.getElementById("job-rule-menu").value;
 
+    let settings = config.getConfiguration();
     operations.applyRule(record, 
         () => reloadTableRules(table, getActiveChain(table)),
-        config.getConfiguration().savePath)
+        settings.autoSave ? settings.savePath : null)
 }
 
 function splitChainName(element) {
@@ -285,7 +286,8 @@ function createAddButton(table, chainName, ruleNumber) {
         widgets.ruleModal(operations.getInterfaceNames(),
          table, 
          () => applyRuleCallback(table, chainName, ruleNumber),
-         chainName)
+         chainName,
+         ruleNumber)
     );
 
     td.appendChild(icon);

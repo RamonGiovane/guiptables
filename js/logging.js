@@ -20,8 +20,6 @@ export function logData(commandArr, operationTried, operationResult, resultMessa
 }
 
 export function writeLogData(txt){
-   debugger
-   alert(txt);
     cockpit.script(`echo "${txt}" >> ${config.getConfiguration().logPath}`, {"err":"out"} )
     .stream(err => widgets.errorMessage("write log file", err));
 }
