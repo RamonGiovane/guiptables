@@ -25,12 +25,18 @@ export function writeLogData(txt){
 }
 
 export function loadLogs(){
-    cockpit.script(`cat ${config.getConfiguration().logPath}`)
-    .then((res) =>{
-        debugger
-        widgets.logModal(res.split("\n-\n"))
-    })
-    .catch(err => widgets.errorMessage("load log file", err));
+    //create file if doesn't exist
+    cockpit.script(`if [[ ! -w ${config.getConfiguration().logPath
+        } ]]; then touch ${config.getConfiguration().logPath}; fi`)
+    .then( () =>{
+        //read file
+        cockpit.script(`cat ${config.getConfiguration().logPath}`)
+        .then((res) =>{
+            debugger
+            widgets.logModal(res.split("\n-\n"))
+        })
+        .catch(err => widgets.errorMessage("load log file", err))
+    }).catch(err => widgets.errorMessage("load log file", err));
 }
     
 

@@ -1,0 +1,33 @@
+2021-03-08 02:15:41
+Trying to: Add new rule
+#iptables -t filter -A INPUT
+OK! Rule applied
+-
+2021-03-08 02:15:41
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/guiptables/saves/guiptables.save
+OK! Tables state saved at: /usr/share/cockpit/guiptables/saves/guiptables.save
+-
+2021-03-08 02:15:54
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/guiptables/settings.json
+-
+2021-03-08 02:16:04
+Trying to: Add new rule
+#iptables -t filter -A INPUT
+OK! Rule applied
+-
+2021-03-08 02:18:06
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/guiptables/settings.json
+-
+2021-03-08 02:18:22
+Trying to: Add new rule
+#iptables -t filter -A INPUT -o enp0s3
+ERR! iptables v1.8.4 (nf_tables): Can't use -o with INPUT
+
+Try 'iptables -h' or 'iptables --help' for more information.
+
+-
