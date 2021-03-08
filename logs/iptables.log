@@ -1,0 +1,92 @@
+2021-03-08 00:45:36
+Trying to: Flush filter table
+#iptables -t filter -F
+OK! Table flushed.
+-
+2021-03-08 00:45:52
+Trying to: Add new rule
+#iptables -t filter -A INPUT
+OK! Rule applied
+-
+2021-03-08 00:45:52
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 00:49:05
+Trying to: Flush filter table
+#iptables -t filter -F
+OK! Table flushed.
+-
+2021-03-08 00:50:43
+Trying to: Add new rule
+#iptables -t filter -A FORWARD -o enp0s3
+OK! Rule applied
+-
+2021-03-08 00:50:43
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:06:43
+Trying to: Add new rule
+#iptables -t filter -A INPUT -o enp0s3
+ERR! iptables v1.8.4 (nf_tables): Can't use -o with INPUT
+-
+2021-03-08 01:09:29
+Trying to: Add new rule
+#iptables -t filter -A FORWARD
+OK! Rule applied
+-
+2021-03-08 01:09:31
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:14:37
+Trying to: Add new rule
+#iptables -t filter -A INPUT -p icmp --dport 80
+ERR! iptables v1.8.4 (nf_tables): unknown option --dport
+Try iptables -h' or 'iptables --help' for more information.
+
+-
+2021-03-08 01:16:08
+Trying to: Flush filter table
+#iptables -t filter -F
+OK! Table flushed.
+-
+2021-03-08 01:16:22
+Trying to: Add new rule
+#iptables -t filter -A INPUT -o enp0s3
+ERR! iptables v1.8.4 (nf_tables): Can't use -o with INPUT
+-
+2021-03-08 01:17:18
+Trying to: Add new rule
+#iptables -t filter -A INPUT -i enp0s8 -p icmp -s google.com
+OK! Rule applied
+-
+2021-03-08 01:17:20
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:17:32
+Trying to: Change settings file
+#
+OK! Configurations stored at /usr/share/cockpit/ippit/settings.json
+-
+2021-03-08 01:18:14
+Trying to: Add new rule
+#iptables -t filter -A INPUT -i enp0s3 -p icmp -s google.com -d 1
+OK! Rule applied
+-
+2021-03-08 01:18:16
+Trying to: Save table state
+#iptables-save /usr/share/cockpit/ippit/saves/iptables.save
+OK! Tables state saved at: /usr/share/cockpit/ippit/saves/iptables.save
+-
+2021-03-08 01:18:34
+Trying to: Flush filter table
+#iptables -t filter -F
+OK! Table flushed.
+-

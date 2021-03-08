@@ -4,7 +4,7 @@ import * as rules from './rules.js'
 import * as widgets from './widgets.js'
 import * as consts from './constants.js'
 import * as config from './config.js';
-
+import * as logs from './logging.js';
 
 function registerEventListeners() {
 
@@ -28,6 +28,8 @@ function registerEventListeners() {
     setAddButtons();
 
     setConfigButton();
+
+    setLogButton();
 }
 
 function setAddButtons() {
@@ -93,6 +95,12 @@ function setChainMenus() {
 function setConfigButton(){
     let btn = document.getElementById("config-button");
     btn.onclick = () => widgets.settingsModal();
+}
+
+
+function setLogButton(){
+    let btn = document.getElementById("log-button");
+    btn.onclick = () => logs.loadLogs();
 }
 
 function start(){

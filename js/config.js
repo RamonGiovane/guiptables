@@ -1,6 +1,6 @@
 import * as operations from './operations.js'; 
 import conf from '../conf.js';
-import { reloadTableRules } from './rules.js';
+
 export class Settings {
     autoSave;
     savePath;
@@ -30,8 +30,8 @@ export function loadTableState(path, requireRefresh = null){
         path == null ? settings.savePath : path, requireRefresh);
 }
 
-export function saveChanges(config){
-    operations.saveConfig(config, conf.path);
+export function saveChanges(settings){
+    operations.saveConfig(settings, conf.path);
 }
 
 export function getConfPath(){

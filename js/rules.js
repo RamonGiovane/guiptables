@@ -32,12 +32,9 @@ export function addRulesInTable() {
  * reloads the table HTML.
  */
 export function flushTable(table) {
-    let response = operations.flush(table);
+    
+    operations.flush(table, () => reloadTableRules(table));
 
-    if (!response)
-        reloadTableRules(table);
-    else
-        widgets.errorMessage("flush table", response);
 }
 
 function loadTableRules(table, chainFilter) {

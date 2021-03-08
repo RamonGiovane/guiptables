@@ -89,6 +89,34 @@ export function ruleModal(interfaceNames, table, applyCallback, chain = null) {
 
 }
 
+export function logModal(contentArr){
+
+    contentArr = contentArr.reverse();
+    let log = document.getElementById("log-list");
+
+    let i = 0;
+
+    log.innerHTML = "";
+    contentArr.forEach(l => {
+        if(l == "") return;
+
+        let el = document.createElement("li");
+        el.className = "list-group-item list-group-item-action ";
+        el.innerText = l;
+        
+        if(l.includes("ERR!"))
+            el.className += "list-group-item-danger";
+        else if(i % 2 == 0)
+            el.className += "list-group-item-info";
+
+        i++;
+        
+
+
+        log.appendChild(el);
+    });
+
+}   
 function loadRuleModal(title, table, chain, interfaces, applyCallback) {
 
     let interfacesOptionsHTML = "";

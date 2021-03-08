@@ -1,5 +1,5 @@
 <!-- Config Modal -->
-<div id="configModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dangerModalLabel"
+<div id="configModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="configModalLabel"
     aria-hidden="true">
 
     <div class="modal-dialog">
@@ -11,7 +11,7 @@
             <div class="modal-body">
                 
                 <span class="custom-switch">
-                    <label for="config-autosave-check">Autosave: </label>
+                    <label for="config-autosave-check">Autosave when add rule: </label>
                     <input class="form-check-input" type="checkbox" value="" id="config-autosave-check">
                 </span>
 
@@ -31,7 +31,7 @@
                 </div>
 
             </div>
-
+            
             <div class="modal-footer">
                 <button id="config-confirm-button" type="button" data-dismiss="modal"
                     class="btn btn-primary">Save</button>
@@ -63,6 +63,30 @@
         </div>
     </div>
 </div>
+
+
+<!-- Log Modal -->
+<div id="logModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="logModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 id="log-modal-title">Logs</h4>
+            </div>
+            <div class="modal-body overflow-auto">
+                <ul class="list-group" id="log-list">
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Error Modal -->
 <div id="errorModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog"
@@ -236,6 +260,7 @@
                     <option value="DROP">DROP</option>
                     <option value="REJECT">REJECT</option>
                     <option value="LOG">LOG</option>
+                    <option value="MASQUERADE">MASQUERADE</option>
                 </select>
 
             </div>
