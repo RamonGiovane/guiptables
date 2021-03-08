@@ -63,7 +63,8 @@ export function raiseInstallationSuccess( ){
 export function raiseInstallationError(){
     
     let statusError = document.getElementById("install-error");
-    statusError.innerHTML = "Something went wrong. Check the <a href='#'>log page</a> for details. <br>Refresh this page to try again." ;
+    statusError.innerHTML = 
+    `Something went wrong. Check the logs file at <a href='#'>${config.getConfiguration().logPath}</a> for details. <br>Refresh this page to try again.` ;
     statusError.style.display = "inline-block";
 
     let status = document.getElementById("install-status");

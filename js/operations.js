@@ -202,20 +202,21 @@ export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
 }
 
 
-export function installIptables() {
+export function installIptables(openLogsCallback) {
     let error = false;
     let command = ["yum", "-y", "install", "iptables"];
     let msg;
 
     widgets.raiseInstallationStart();
-    cockpit.spawn(command, { "error": "out" })
+    cockpit.spawn(command, { "err": "message" })
         .catch((err) => {
+            
             error = true;
-            msg = err;
+            msg = err.message;
         })
         .always(() => {
             if (error) {
-                widgets.raiseInstallationError();
+                widgets.raiseInstallationError(logs.loadLogs);
             }
             else {
                 widgets.raiseInstallationSuccess();
