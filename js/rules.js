@@ -248,13 +248,16 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber) {
 
 function createAddButton(table, chainName, ruleNumber) {
    
-    
-   
     let td = document.createElement("td");
     td.id = `add-${table}-${chainName}-${ruleNumber}`;
 
     let icon = document.createElement("i");
     
+    let span = document.createElement("span");
+    span.innerHTML = "&nbsp;Add rule";
+    span.className = "plus-btn";
+    icon.appendChild(span);
+
     if(activeChains[table] == consts.showAll){
         icon.className = "fa fa-plus-circle grey-plus";
         td.appendChild(icon);
@@ -268,8 +271,6 @@ function createAddButton(table, chainName, ruleNumber) {
     
     
     icon.className = "fa fa-plus-circle";
-
-
 
     let dataToogle = document.createAttribute("data-toggle");
     dataToogle.value = "modal";
