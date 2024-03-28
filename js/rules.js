@@ -7,6 +7,9 @@ import RuleData from './model/RuleData.js';
 import RuleRecord from './model/RuleRecord.js';
 
 let activeChains = {"filter" : "Show all", "nat": "Show all"};
+let dynChainsList = {};
+for(let key in consts.chainsList)
+    dynChainsList[key] = new Set(consts.chainsList[key]);
 
 export function getActiveChain(table){
     return activeChains[table];
@@ -23,9 +26,11 @@ export function setActiveChain(table, chain){
  */
 export function addRulesInTable() {
 
-    loadTableRules(consts.nat);
+    let prom1 = loadTableRules(consts.nat);
 
-    loadTableRules(consts.filter);
+    let prom2 = loadTableRules(consts.filter);
+
+    return Promise.all([prom1, prom2]);
 }
 
 /**Runs 'iptables -t [table] -F' which deletes all table rows then
@@ -41,7 +46,7 @@ function loadTableRules(table, chainFilter) {
     if (chainFilter == consts.showAll)
         chainFilter = null;
 
-    cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
+    return cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
         .then(res => processResponse(res, table, chainFilter))
         .catch(err => widgets.errorMessage("load " + table + " table"));
 
@@ -124,6 +129,7 @@ function processResponse(data, table, chainFilter) {
 
         if (element.startsWith("Chain")) {
             chainName = splitChainName(element);
+            dynChainsList[table].add(chainName);
             return;
         }
 
@@ -156,7 +162,7 @@ export function setChainMenu(table) {
     let menu = document.getElementById(table + "-chain-menu");
     menu.innerHTML = "";
 
-    let chains = consts.chainsList[table];
+    let chains = dynChainsList[table];
     chains.forEach(c => {
         menu.innerHTML +=
             `
