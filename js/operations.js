@@ -34,7 +34,6 @@ export function flush(table, onSuccessCallback) {
     let args = ["iptables", "-t", table, "-F"];
     cockpit.spawn(args, { err: "out" })
         .stream(res => {
-            debugger
             response = res;
             success = false;
             widgets.errorMessage(consts.flushTable, res);
@@ -171,7 +170,6 @@ export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
 
                 result = "Rule applied";
 
-                debugger
                 if (autoSavePath)
                     runIptablesSave(autoSavePath);
             }

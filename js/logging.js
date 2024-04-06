@@ -32,7 +32,6 @@ export function loadLogs(){
         //read file
         cockpit.script(`cat ${config.getConfiguration().logPath}`)
         .then((res) =>{
-            debugger
             widgets.logModal(res.split("\n-\n"))
         })
         .catch(err => widgets.errorMessage("load log file", err))
