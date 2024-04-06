@@ -319,7 +319,7 @@ function createDeleteButton(table, chainName, ruleNumber) {
     icon.setAttributeNode(dataTarget);
 
     icon.addEventListener("click", () =>
-        widgets.dangerModal(consts.DeleteRule, () => deleteButtonListener(td.id)));
+        widgets.dangerModal(consts.DeleteRule, () => deleteButtonListener(td.id, chainName)));
 
     td.appendChild(icon);
 
@@ -327,13 +327,13 @@ function createDeleteButton(table, chainName, ruleNumber) {
 }
 
 /**Intended to execute when user clicks on a trash can icon */
-function deleteButtonListener(id) {
+function deleteButtonListener(id, chainName) {
 
 
 
     let rule = extractRuleFromId(id);
     operations.deleteRule(rule);
-    reloadTableRules(rule.ruleTable);
+    reloadTableRules(rule.ruleTable, chainName);
 }
 
 
