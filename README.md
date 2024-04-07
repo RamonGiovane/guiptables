@@ -10,23 +10,31 @@ _A Graphic User Interface for Linux's Iptables Firewall. Made with Cockpit for C
 ## Instruções
 
 ## 1. Instalando o _guiptables_
-O _guiptables_ pode ser instalado usando o pacote RPM disponível na seção [**Releases**](https://github.com/RamonGiovane/guiptables/releases).
+Acesse a seção de [**Releases**](https://github.com/RamonGiovane/guiptables/releases) e opte por baixar um pacote binário executável ou o código fonte diretamente;
 
+### Usando o pacote binário
+Atualmente, apenas pacotes rpm para sistemas RHEL-like estão disponíveis.
 Depois de baixado o pacote, basta executar:
 
     rpm -i guiptables<versao>.rpm
-    
-Você também pode optar por baixar o código fonte diretamente.
-Nesse caso é preciso armazená-lo no diretório de aplicativos do Cockpit em sua máquina.
 
-**Nota:** 
-O diretório de aplicativos desenvolvidos para Cockpit geralmente corresponde à `/usr/share/cockpit/` em sistemas RHEL-like.
-Os pacotes RPM disponíveis assumem que este seja o diretório existente. Em caso de problemas para instalar, a segunda opção supracitada deverá funcionar.
 
-Dependências necessárias:
+### Usando o código fonte
+Se não utiliza um sistema RHEL-like, essa é a maneira mais fácil.
+Não é preciso compilar nenhum código, mas é necessário que você já tenha as seguintes dependências instaladas:
+
+```yml
 - Cockpit >= 224.2
 - bash
-- yum (usado para instalar o Iptables no caso de não estar)
+- yum (opcional, usado para instalar o Iptables no caso de não estar)
+```
+
+Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do repositório para o diretório de aplicativos desenvolvidos para Cockpit:
+```bash
+cp -r guipatbles/ /usr/share/cockpit/
+```
+
+
 
 ## 2. Instalando o _Iptables_ via Cockpit
 
@@ -36,6 +44,7 @@ Soaria incomum, mas caso o Iptables não esteja instalado, você poderia fazê-l
 
 Após a instalação você será solicitado para recarregar a página. 
 
+Nota: isso não funcionará se você não possuir o **yum** instalado.
 
 ## 3. Listando as regras
 
@@ -128,30 +137,34 @@ Após isso será solicitado que a página seja recarregada.
 
 Você pode alterar o caminho em que o arquivo texto dos logs é salvo, **nas configurações ⚙️**.
 
-~~Nota easteregg: _guiptables_ não é o trabalho do Gui~~.
-
 <hr>
 
 ## Instructions
 
 ## 1. Installing _guiptables_
-_guiptables_ may be installed using one of the RPM packages available on the [**Releases**](https://github.com/RamonGiovane/guiptables/releases) section.
+Access the [**Releases**](https://github.com/RamonGiovane/guiptables/releases) section and choose to download an executable binary package or the source code directly.
 
-After downloading the package, simply run:
+### Using the binary package
+Currently, only rpm packages for RHEL-like systems are available.
+Once the package has been downloaded, simply run:
 
-    rpm -i guiptables<version>.rpm
-    
-You may also choose to download the source code directly.
-In this case you must store it in the Cockpit's applications directory on your server.
+     rpm -i guiptables<version>.rpm
 
-**Note:** The directory intented for applications developed for Cockpit, usually is `/usr/share/cockpit/` on RHEL-like systems.
-The available RPM packages assume that this is the existing directory. In case of installation problems, the above second option should work.
 
-Required dependencies:
+### Using the source code
+If you don't use a RHEL-like system, this is the easiest way.
+You don't need to compile any code, but you must already have the following dependencies installed:
+
+```yml
 - Cockpit >= 224.2
 - bash
-- yum (used to install Iptables in case it is not)
+- yum (optional, used to install Iptables in case it is not there)
+```
 
+After installing Cockpit and downloading the source code, simply copy the repository folder to the directory of applications developed for Cockpit:
+```bash
+cp -r guipatbles/ /usr/share/cockpit/
+```
 
 ## 2. Installing _Iptables_ via Cockpit
 
@@ -252,8 +265,6 @@ After that you will be requested to reload the page.
   - an error occurred while saving chnages on the configuration file
 
 **At the settings ⚙️**, you may change the path where the log text file is saved.
-
-~~Easteregg note: _guiptables_ is not Gui's work~~.
 
 
 
