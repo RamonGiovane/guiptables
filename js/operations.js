@@ -109,7 +109,7 @@ export function readFile(fileName) {
 export function filterTableByChain(table, chain) {
 
     //Pega as linha da tabela (<tr> dentro do <tbody>) em forma de HTMLCollection
-    let arr = Array.from(document.getElementsByClassName(`row-${table}-${chain}`));
+    let arr = Array.from(document.getElementsByClassName(buildIdOrClassName('row', table, chain)));
 
 
     //Filtra e retorna apenas as linhas daquela tabela e daquela cadeia
@@ -334,3 +334,7 @@ export function saveConfig(config, path) {
         });
 }
 
+/** Creates a String to be used as id or classname in a HTML element. */
+export function buildIdOrClassName(title, tableName, chainName, rowNumber) {
+    return [title, tableName, chainName, rowNumber].filter(Boolean).join(consts.idSeparator)
+ }

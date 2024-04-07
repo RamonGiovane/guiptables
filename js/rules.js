@@ -224,7 +224,7 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber) {
     //Cria a tag de linha propriamente dita
     let tr = document.createElement("tr");
 
-    tr.className = `row-${table}-${chainName}`
+    tr.className = operations.buildIdOrClassName('row', table, chainName)
 
 
     //Insere o conteudo da colunas na linha
@@ -249,7 +249,7 @@ function splitRowAndSetRule(rule, table, chainName, ruleNumber) {
 function createAddButton(table, chainName, ruleNumber) {
    
     let td = document.createElement("td");
-    td.id = `add-${table}-${chainName}-${ruleNumber}`;
+    td.id = operations.buildIdOrClassName('add', table, chainName, ruleNumber);
 
     let icon = document.createElement("i");
     
@@ -302,7 +302,7 @@ function createAddButton(table, chainName, ruleNumber) {
 function createDeleteButton(table, chainName, ruleNumber) {
 
     let td = document.createElement("td");
-    td.id = `delete-${table}-${chainName}-${ruleNumber}`;
+    td.id = operations.buildIdOrClassName('delete', table, chainName, ruleNumber);;
 
     let icon = document.createElement("i");
     icon.className = "fa fa-trash fa-trash-red";
@@ -341,7 +341,7 @@ function extractRuleFromId(id) {
 
     let rule = new RuleData();
 
-    let data = id.split("-");
+    let data = id.split(consts.idSeparator);
 
     rule.ruleTable = data[1];
     rule.ruleChain = data[2];
@@ -400,4 +400,3 @@ function fillEmptyTable(table) {
     tableRow.appendChild(tr);
 
 }
-

@@ -12,6 +12,9 @@ export const any = "any";
 export const anywhere = "anywhere";
 export const zeroAddr = "0.0.0.0/0";
 
+// String for building HTML ids which later will be splitted. 
+export const idSeparator = '___'
+
 //These might be translated
 //Estes poderiam ser traduzidos
 export const chainsList = 
