@@ -120,7 +120,7 @@ function load() {
 
     
     operations.isIptablesInstalled(
-        () => rules.addRulesInTable(), 
+        () => {rules.addRulesInTable().then(res => {setChainMenus();});}, 
         () => widgets.installationModal(
             () => operations.installIptables())
     );
