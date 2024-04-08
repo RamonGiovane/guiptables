@@ -31,7 +31,7 @@ Não é preciso compilar nenhum código, mas é necessário que você já tenha 
 
 Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do repositório para o diretório de aplicativos desenvolvidos para Cockpit:
 ```bash
-cp -r guipatbles/ /usr/share/cockpit/
+cp -r guiptables/ /usr/share/cockpit/
 ```
 
 
