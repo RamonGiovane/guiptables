@@ -20,7 +20,7 @@ Depois de baixado o pacote, basta executar:
 
 
 ### Usando o código fonte
-Se não utiliza um sistema RHEL-like, essa é a maneira mais fácil.
+Se você não utiliza um sistema RHEL-like, essa é a maneira mais fácil.
 Não é preciso compilar nenhum código, mas é necessário que você já tenha as seguintes dependências instaladas:
 
 ```yml
@@ -163,7 +163,7 @@ You don't need to compile any code, but you must already have the following depe
 
 After installing Cockpit and downloading the source code, simply copy the repository folder to the directory of applications developed for Cockpit:
 ```bash
-cp -r guipatbles/ /usr/share/cockpit/
+cp -r guiptables/ /usr/share/cockpit/
 ```
 
 ## 2. Installing _Iptables_ via Cockpit
@@ -172,7 +172,9 @@ It would sound unusual, but if Iptables is not installed, you could do it via Co
 
 ![image](https://user-images.githubusercontent.com/40267373/111898685-61ca0b00-8a06-11eb-9136-0f0be660babe.png)
 
-After installation you will be asked to reload the page. 
+After installation you will be asked to reload the page.
+
+Note: this will not work if you don't have **yum** installed.
 
 ## 3. Rules list
 
