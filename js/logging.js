@@ -11,7 +11,7 @@ export function logData(commandArr, operationTried, operationResult, resultMessa
     .then((date) =>{       
         
         let str = 
-            date + `Trying to: ${operationTried}\n#${commandArr.join(" ")}`;
+            date + `Trying to: ${operationTried}\n$ ${commandArr.join(" ")}`;
         
         str += `\n${operationResult ? "OK" : "ERR"}! ${resultMessage}\n-`;
 
@@ -39,5 +39,4 @@ export function loadLogs(){
         .catch(err => widgets.errorMessage("load log file", err))
     }).catch(err => widgets.errorMessage("load log file", err));
 }
-
 
