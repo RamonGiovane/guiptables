@@ -7,11 +7,11 @@ let interfaceNames = []
 export function authenticate(onSuccessCallback, onFailureCallback) {
     const permission = cockpit.permission({ admin: true });
     permission.addEventListener("changed", () => {
-        if(permission.allowed === true) {
-            onSuccessCallback()
-        }
-        else {
+        if(permission.allowed === false) {
             onFailureCallback()
+        }
+        else if(permission.allowed) {
+            onSuccessCallback()
         }
     });
 }
