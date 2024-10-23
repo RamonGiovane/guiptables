@@ -34,7 +34,7 @@ Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do r
 cp -r guiptables/ /usr/share/cockpit/
 ```
 #### :warning: Cuidado!
-O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando um nova versão.
+O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando uma nova versão.
 
 ### Acessando a interface
 Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
