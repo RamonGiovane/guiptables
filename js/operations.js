@@ -5,24 +5,15 @@ import * as logs from './logging.js';
 let interfaceNames = []
 
 export function authenticate(onSuccessCallback, onFailureCallback) {
-
-    let success;
-    return cockpit.spawn(["ls", "/root/"], { err: "out" })
-
-        .then(
-            () => {
-                success = true;
-                onSuccessCallback()
-            }
-        )
-        .catch(() => {
-            success = false;
-            onFailureCallback();
-        //})
-        //.always(() =>
-            //logs.logData([], "Access page", success,
-              //  success ? "Access granted" : "Access denied")
-        });
+    const permission = cockpit.permission({ admin: true });
+    permission.addEventListener("changed", () => {
+        if(permission.allowed === true) {
+            onSuccessCallback()
+        }
+        else {
+            onFailureCallback()
+        }
+    });
 }
 
 export function flush(table, onSuccessCallback) {
