@@ -5,24 +5,15 @@ import * as logs from './logging.js';
 let interfaceNames = []
 
 export function authenticate(onSuccessCallback, onFailureCallback) {
-
-    let success;
-    return cockpit.spawn(["ls", "/root/"], { err: "out" })
-
-        .then(
-            () => {
-                success = true;
-                onSuccessCallback()
-            }
-        )
-        .catch(() => {
-            success = false;
-            onFailureCallback();
-        //})
-        //.always(() =>
-            //logs.logData([], "Access page", success,
-              //  success ? "Access granted" : "Access denied")
-        });
+    const permission = cockpit.permission({ admin: true });
+    permission.addEventListener("changed", () => {
+        if(permission.allowed === false) {
+            onFailureCallback()
+        }
+        else if(permission.allowed) {
+            onSuccessCallback()
+        }
+    });
 }
 
 export function flush(table, onSuccessCallback) {
@@ -31,7 +22,7 @@ export function flush(table, onSuccessCallback) {
     let response = "Table flushed.";
     let success = true;
 
-    let args = ["iptables", "-t", table, "-F"];
+    let args = ["sudo", "iptables", "-t", table, "-F"];
     cockpit.spawn(args, { err: "out" })
         .stream(res => {
             response = res;
@@ -66,9 +57,9 @@ export function deleteRule(ruleData) {
 
     let result = "Rule deleted", success = true;
 
-    let args = ["iptables", "-t", ruleData.ruleTable,
+    let args = ["sudo", "iptables", "-t", ruleData.ruleTable,
         "-D", ruleData.ruleChain, ruleData.ruleIndexInChain];
-
+    
     cockpit.spawn(args, { err: "out" })
         .stream(res => {
             widgets.errorMessage(consts.deleteRule, res)
@@ -78,7 +69,8 @@ export function deleteRule(ruleData) {
         .always(() => {
 
             let operationTried =
-                `Delete rule ${ruleData.ruleIndexInChain} from ${ruleData.table}-${ruleData.chain}`;
+                `Delete rule ${ruleData.ruleIndexInChain} from
+                table: ${ruleData.ruleTable.toUpperCase()}, chain: ${ruleData.ruleChain}`;
             logs.logData(args, operationTried, success, result);
 
         });
@@ -90,14 +82,14 @@ export function getInterfaceNames() {
     if (interfaceNames.length > 0)
         return interfaceNames;
 
-    cockpit.spawn(["ls", "/sys/class/net"])
+    cockpit.spawn(["sudo", "ls", "/sys/class/net"])
         .then(res => interfaceNames = res.split("\n"))
         .catch(res => widgets.errorMessage(consts.loadSystemInt, res));
 }
 
 export function readFile(fileName) {
     let response;
-    cockpit.spawn(["cat", fileName])
+    cockpit.spawn(["sudo", "cat", fileName])
         .then(res => response = res)
         .catch(err => response = err)
 
@@ -121,7 +113,7 @@ export function filterTableByChain(table, chain) {
 }
 
 export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
-    let args = ["iptables", "-t", ruleRecord.table];
+    let args = ["sudo", "iptables", "-t", ruleRecord.table];
 
     if (ruleRecord.ruleBelow)
         args.push(...["-I", ruleRecord.chain, ruleRecord.ruleBelow]);
@@ -189,7 +181,7 @@ export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
 
 export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
     let error = false;
-    cockpit.spawn(["iptables", "-L"], { "error": "out" })
+    cockpit.spawn(["sudo", "iptables", "-L"], { "error": "out" })
         .catch(() => error = true)
         .always(() => {
             if (error)
@@ -202,7 +194,7 @@ export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
 
 export function installIptables(openLogsCallback) {
     let error = false;
-    let command = ["yum", "-y", "install", "iptables"];
+    let command = ["sudo", "yum", "-y", "install", "iptables"];
     let msg;
 
     widgets.raiseInstallationStart();
@@ -244,7 +236,7 @@ export function loadConfigFile(configPath, onSuccessCallback) {
 
 export function runIptablesSave(path) {
 
-    cockpit.spawn(["iptables-save"], { "err": "out" })
+    cockpit.spawn(["sudo", "iptables-save"], { "err": "out" })
         .then((res) => {
 
             saveRulesToPath(res, path);
@@ -276,14 +268,14 @@ function saveRulesToPath(content, path) {
 
         })
         .always(() =>
-            logs.logData(["iptables-save", path], "Save table state", success, result));
+            logs.logData(["sudo", "iptables-save", path], "Save table state", success, result));
 
 }
 
 export function runIptablesRestore(path, requireRefresh) {
 
     let errorMessage;
-    let command = ["iptables-restore", path];
+    let command = ["sudo", "iptables-restore", path];
     cockpit.spawn(command, { "err": "out" })
         .stream((res) => {
 

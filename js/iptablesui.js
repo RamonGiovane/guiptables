@@ -108,14 +108,14 @@ function start(){
     $('#modal-content').load('./modals.html');
 
     operations.authenticate(
-        ( )=> load(),
-        
+        load,
         () => widgets.errorModal("Access denied", 
-            "You must be logged as root in order to access this page.")        
+            "You don't have enough privileges to access this page.")        
         );
     
     
 }
+
 function load() {
 
     

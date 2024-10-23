@@ -46,7 +46,7 @@ function loadTableRules(table, chainFilter) {
     if (chainFilter == consts.showAll)
         chainFilter = null;
 
-    return cockpit.spawn(["iptables", "-t", table, "-n", "-L", "-v"])
+    return cockpit.spawn(["sudo", "iptables", "-t", table, "-n", "-L", "-v"])
         .then(res => processResponse(res, table, chainFilter))
         .catch(err => widgets.errorMessage("load " + table + " table"));
 

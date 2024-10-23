@@ -11,7 +11,7 @@ export function logData(commandArr, operationTried, operationResult, resultMessa
     .then((date) =>{       
         
         let str = 
-            date + `Trying to: ${operationTried}\n#${commandArr.join(" ")}`;
+            date + `Trying to: ${operationTried}\n$ ${commandArr.join(" ")}`;
         
         str += `\n${operationResult ? "OK" : "ERR"}! ${resultMessage}\n-`;
 
@@ -19,23 +19,24 @@ export function logData(commandArr, operationTried, operationResult, resultMessa
     });
 }
 
-export function writeLogData(txt){
-    cockpit.script(`echo "${txt}" >> ${config.getConfiguration().logPath}`, {"err":"out"} )
-    .stream(err => widgets.errorMessage("write log file", err));
+export function writeLogData(txt) {
+    cockpit.spawn(['sudo', 'sh', '-ec', `echo "${txt}" | tee -a ${config.getConfiguration().logPath}`])
+    .catch(err => {
+        widgets.errorMessage("write log file", err)
+
+    })
 }
 
 export function loadLogs(){
     //create file if doesn't exist
-    cockpit.script(`if [[ ! -w ${config.getConfiguration().logPath
-        } ]]; then touch ${config.getConfiguration().logPath}; fi`)
+    cockpit.spawn(['sudo', 'sh', '-ec', `touch ${config.getConfiguration().logPath}`])
     .then( () =>{
         //read file
-        cockpit.script(`cat ${config.getConfiguration().logPath}`)
+        cockpit.spawn(['sudo', 'sh', '-ec', `cat ${config.getConfiguration().logPath}`])
         .then((res) =>{
             widgets.logModal(res.split("\n-\n"))
         })
         .catch(err => widgets.errorMessage("load log file", err))
     }).catch(err => widgets.errorMessage("load log file", err));
 }
-    
 
