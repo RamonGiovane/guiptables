@@ -69,7 +69,8 @@ export function deleteRule(ruleData) {
         .always(() => {
 
             let operationTried =
-                `Delete rule ${ruleData.ruleIndexInChain} from ${ruleData.table}-${ruleData.chain}`;
+                `Delete rule ${ruleData.ruleIndexInChain} from
+                table: ${ruleData.ruleTable.toUpperCase()}, chain: ${ruleData.ruleChain}`;
             logs.logData(args, operationTried, success, result);
 
         });
