@@ -33,8 +33,10 @@ Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do r
 ```bash
 cp -r guiptables/ /usr/share/cockpit/
 ```
+#### :warning: Cuidado!
+O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando um nova versão.
 
-### Acessando a interrface
+### Acessando a interface
 Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
 
 Assegure-se de que você está logado como root ou tenha privilégio de `sudo`.
@@ -170,6 +172,8 @@ After installing Cockpit and downloading the source code, simply copy the reposi
 ```bash
 cp -r guiptables/ /usr/share/cockpit/
 ```
+#### :warning: Caution!
+The above command will replace all *guiptables* files if they already exist. Make sure to backup your logs and saves if you are installing a new version.
 
 ### Acessing the interface
 When entering the Cockpit, click on **Iptables UI** to access the dashboard.
