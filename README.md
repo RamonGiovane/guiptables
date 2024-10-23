@@ -34,7 +34,12 @@ Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do r
 cp -r guiptables/ /usr/share/cockpit/
 ```
 
+### Acessando a interrface
+Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
 
+Assegure-se de que você está logado como root ou tenha privilégio de `sudo`.
+
+Se o seu usuário não for root, será necessário entrar no modo de Acesso Administrativo do Cockpit.
 
 ## 2. Instalando o _Iptables_ via Cockpit
 
@@ -165,6 +170,13 @@ After installing Cockpit and downloading the source code, simply copy the reposi
 ```bash
 cp -r guiptables/ /usr/share/cockpit/
 ```
+
+### Acessing the interface
+When entering the Cockpit, click on **Iptables UI** to access the dashboard.
+
+Make sure you are logged in as root or have `sudo` privilage.
+
+If your user is not root, you will need to enter the Cockpit Administrative Access mode.
 
 ## 2. Installing _Iptables_ via Cockpit
 
