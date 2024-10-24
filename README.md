@@ -10,6 +10,10 @@ _Uma interface gráfica para o Firewall do Linux, Iptables. Feito usando Cockpit
 
 ## Instructions
 
+_guiptables_ is a [Cockpit](https://cockpit-project.org/) plugin.
+
+Cockpit is a web-based graphical interface for Linux systems. Please read its documentation to understand how it works.
+
 ## 1. Installing _guiptables_
 Access the [**Releases**](https://github.com/RamonGiovane/guiptables/releases) section and choose to download an executable binary package or the source code directly.
 
@@ -149,6 +153,10 @@ After that you will be requested to reload the page.
 <hr>
 
 ## Instruções
+
+_guiptables_ é um plug-in para [Cockpit](https://cockpit-project.org/).
+
+Cockpit é uma interface gráfica baseada na web para sistemas Linux. Por favor, leia a documentação para entender como ele funciona.
 
 ## 1. Instalando o _guiptables_
 Acesse a seção de [**Releases**](https://github.com/RamonGiovane/guiptables/releases) e opte por baixar um pacote binário executável ou o código fonte diretamente;
