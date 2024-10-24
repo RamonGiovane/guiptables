@@ -165,7 +165,7 @@ You don't need to compile any code, but you must already have the following depe
 ```yml
 - Cockpit >= 224.2
 - bash
-- yum (optional, used to install Iptables in case it is not there)
+- yum (optional, used to install Iptables in case it is not already there)
 ```
 
 After installing Cockpit and downloading the source code, simply copy the repository folder to the directory of applications developed for Cockpit:
@@ -173,12 +173,12 @@ After installing Cockpit and downloading the source code, simply copy the reposi
 cp -r guiptables/ /usr/share/cockpit/
 ```
 #### :warning: Caution!
-The above command will replace all *guiptables* files if they already exist. Make sure to backup your logs and saves if you are installing a new version.
+The above command will replace all *guiptables* files if they already exist. Make sure to back up your logs and saves if you are installing a new version.
 
-### Acessing the interface
+### Accessing the interface
 When entering the Cockpit, click on **Iptables UI** to access the dashboard.
 
-Make sure you are logged in as root or have `sudo` privilage.
+Make sure you are logged in as root or have `sudo` privileges.
 
 If your user is not root, you will need to enter the Cockpit Administrative Access mode.
 
@@ -202,7 +202,7 @@ Each applied rule will appear in its respective table, in a line with a set of i
 
 - Number of packets trafficked
 - Portion of data trafficked
-- Chain which it belongs
+- Chain to which it belongs
 - Action it performs (job / action / target)
 - The protocols that apply
 - Advanced options
@@ -244,7 +244,7 @@ You can also decide to delete ALL rules from ALL chains in a table at once. Just
  ## 6. Saving and loading the tables state
  
  ### Creating a backup
- You may save the tables state in a external backup file.
+ You may save the tables' state in an external backup file.
  
  This option uses the **iptables-save** command internally.
  
@@ -255,7 +255,7 @@ You can also decide to delete ALL rules from ALL chains in a table at once. Just
 ![image](https://user-images.githubusercontent.com/40267373/111886608-be4d0c00-89ad-11eb-8d3c-d96d2fb936eb.png)
 
 
-**Do not confuse with the Save button at the bottom.**
+**Do not confuse this with the Save button at the bottom.**
 
 The **Save** button will keep any changes made at this screen, such as log path or auto-save.
 
@@ -274,13 +274,13 @@ After that you will be requested to reload the page.
  ### What is logged?
  Log is recorded every time:
   - a rule is inserted or deleted
-  - an error occurred while trying to insert or delete a rule
+  - an error occurs while trying to insert or delete a rule
   - a table has been flushed
-  - an error occurred while flushing a table
+  - an error occurs while flushing a table
   - Iptables was installed via Cockpit
-  - an error occurred while installing Iptables
+  - an error occurs while installing Iptables
   - the configuration file has been changed
-  - an error occurred while saving chnages on the configuration file
+  - an error occurs while saving chnages on the configuration file
 
 **At the settings ⚙️**, you may change the path where the log text file is saved.
 
