@@ -1,150 +1,12 @@
 # guiptables
 
 
-### 🇧🇷 [Manual em Português](#instruções) 🔗
-_Uma interface gráfica para o Firewall do Linux, Iptables. Feito usando Cockpit para CentOS._
-
 ### :us: [English Manual](#instructions) 🔗
 _A Graphic User Interface for Linux's Iptables Firewall. Made with Cockpit for CentOS._
 
-## Instruções
+### 🇧🇷 [Manual em Português](#instruções) 🔗
+_Uma interface gráfica para o Firewall do Linux, Iptables. Feito usando Cockpit para CentOS._
 
-## 1. Instalando o _guiptables_
-Acesse a seção de [**Releases**](https://github.com/RamonGiovane/guiptables/releases) e opte por baixar um pacote binário executável ou o código fonte diretamente;
-
-### Usando o pacote binário
-Atualmente, apenas pacotes rpm para sistemas RHEL-like estão disponíveis.
-Depois de baixado o pacote, basta executar:
-
-    rpm -i guiptables<versao>.rpm
-
-
-### Usando o código fonte
-Se você não utiliza um sistema RHEL-like, essa é a maneira mais fácil.
-Não é preciso compilar nenhum código, mas é necessário que você já tenha as seguintes dependências instaladas:
-
-```yml
-- Cockpit >= 224.2
-- bash
-- yum (opcional, usado para instalar o Iptables no caso de não estar)
-```
-
-Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do repositório para o diretório de aplicativos desenvolvidos para Cockpit:
-```bash
-cp -r guiptables/ /usr/share/cockpit/
-```
-#### :warning: Cuidado!
-O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando uma nova versão.
-
-### Acessando a interface
-Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
-
-Assegure-se de que você está logado como root ou tenha privilégio de `sudo`.
-
-Se o seu usuário não for root, será necessário entrar no modo de Acesso Administrativo do Cockpit.
-
-## 2. Instalando o _Iptables_ via Cockpit
-
-Soaria incomum, mas caso o Iptables não esteja instalado, você poderia fazê-lo via Cockpit ao executar o _guiptables_ pela primeira vez:
-
-![image](https://user-images.githubusercontent.com/40267373/111898685-61ca0b00-8a06-11eb-9136-0f0be660babe.png)
-
-Após a instalação você será solicitado para recarregar a página. 
-
-Nota: isso não funcionará se você não possuir o **yum** instalado.
-
-## 3. Listando as regras
-
-A interface básica do _guiptables_ é mostrar as regras aplicadas nas tabelas do firewall.
-
-![image](https://user-images.githubusercontent.com/40267373/111898858-575c4100-8a07-11eb-92c3-d510056f3ec6.png)
-
-Cada regra aplicada aparecerá em sua respectiva tabela, numa linha com um conjunto de informações:
-
-- Quantidade de pacotes trafegados
-- Porção de dados trafegados
-- Cadeia em que pertence (chain)
-- Ação que desempenha (job/action/target)
-- Os protocolos que se aplicam
-- Opções avançadas
-- Interface de entrada
-- Interface de saída
-- Endereço de entrada
-- Endereço de saída
-
-
-**Todas as regras mostradas são recuperadas da memória do sistema. Isso significa que regras aplicadas fora do _guiptables_ também serão exibidas.**
-
-Por padrão, são exibidas todas as regras de uma tabela **(Show all)**, mas é possível filtrar pela **cadeia (chain)**, usando o dropdown no topo da tabela de maneira que mostre como o Iptables exibiria em linha de comando.
-
-## 4. Adicionando uma regra
-  ### Nova regra
-  Para criar uma nova regra, primeiro é preciso escolher uma das cadeias disponíveis para a tabela no dropdown. Em seguida, clicar no botão azul **➕ Add rule**.
-  Uma janela será aberta com as opções disponíveis para que sua regra seja criada: 
-  
-  ![image](https://user-images.githubusercontent.com/40267373/109742540-fed71800-7bad-11eb-9571-b514ca7e001f.png)
-  
-  Ao clicar em aplicar, uma nova regra será adicionada no fim da tabela.
-  Uma mensagem de erro será disparada, caso sejam aplicadas opções inválidas para a regra.
-  
-  ### Inserir nova regra em uma posição
-  Como a ordem das regras é importante, você pode aplicar uma regra em uma ordem especifica.
-  Para isso, escolha uma cadeia no dropdown, em seguida, clique no botão menor  **➕ Add rule** à esquerda de uma das regras da lista.
-  
-  Dessa forma você aplicaria uma nova regra sobre a regra escolhida.
-  
-  Ou seja, a nova regra ocupará a posição da regra escolhida. 
-  
-  A regra escolhida ficará um posição adiante, abaixo da nova regra.
-    
- ## 5. Excluindo regras
- Para excluir uma regra, basta clicar no **botão de lixeira 🗑️** em vermelho na lista de regras, à direita.
- 
- Você pode optar também por excluir TODAS as regras de TODAS as cadeias de uma tabela de uma vez. Basta clicar no botão **Flush Table 🗑️** acima da tabela desejada.
- 
- ## 6. Salvando e carregando o estado das tabelas
- 
- ### Criando um backup
- Você pode salvar o estado das tabelas em um arquivo de backup. 
- 
- Essa opção usa internamente o comando **iptables-save**.
- 
- Para  manualmente gravar o conteúdo atual das tabelas do serviço Iptables, basta ir nas **configurações** clicando no **botão de engrenagem ⚙️ azul**, no topo da página.
- 
- Você pode especificar um caminho para salvar ou deixar o padrão. Em seguida, clique em **Save current state**.
- 
-![image](https://user-images.githubusercontent.com/40267373/111886608-be4d0c00-89ad-11eb-8d3c-d96d2fb936eb.png)
-
-
-**Não confundir com o botão Save no canto inferior.**
-
-O botão **Save** guardará as alterações feitas nessa tela de configuração, como o caminho de logs e a opção de auto-salvar.  
-
-### A função auto-salvar
-Você pode optar por auto-salvar o estado das tabelas no arquivo especificado, toda vez que uma regra for inserida.
-Lembre-se que o arquivo não guardará histórico, será sempre **sobrescrito**.
-
-### Restaurando um backup
-Para restaurar um arquivo de backup, basta especifica-lo no mesmo campo e clicar no botão **Restore from this**.
-Após isso será solicitado que a página seja recarregada.
-
- ## 7. Consultando logs
- Você pode checar as últimas operações realizadas dentro do _**guiptables**_ clicando no **botão com ícone de jornal 📰**.
- 
- ### O que é salvo?
- Registra-se log, toda vez que:
-  - uma regra for inserida ou deletada
-  - um erro ocorreu tentando inserir ou deletar uma regra
-  - uma tabela foi limpa (Flush table)
-  - ocorreu um erro ao limpar uma tabela 
-  - o Iptables foi instalado via Cockpit
-  - ocorreu um erro ao instalar o Iptables
-  - alterou-se o arquivo de configuração
-  - ocorreu um erro ao alterar o arquivo de configuração
-
-Você pode alterar o caminho em que o arquivo texto dos logs é salvo, **nas configurações ⚙️**.
-
-<hr>
 
 ## Instructions
 
@@ -283,6 +145,145 @@ After that you will be requested to reload the page.
   - an error occurs while saving chnages on the configuration file
 
 **At the settings ⚙️**, you may change the path where the log text file is saved.
+
+<hr>
+
+## Instruções
+
+## 1. Instalando o _guiptables_
+Acesse a seção de [**Releases**](https://github.com/RamonGiovane/guiptables/releases) e opte por baixar um pacote binário executável ou o código fonte diretamente;
+
+### Usando o pacote binário
+Atualmente, apenas pacotes rpm para sistemas RHEL-like estão disponíveis.
+Depois de baixado o pacote, basta executar:
+
+    rpm -i guiptables<versao>.rpm
+
+
+### Usando o código fonte
+Se você não utiliza um sistema RHEL-like, essa é a maneira mais fácil.
+Não é preciso compilar nenhum código, mas é necessário que você já tenha as seguintes dependências instaladas:
+
+```yml
+- Cockpit >= 224.2
+- bash
+- yum (opcional, usado para instalar o Iptables no caso de não estar)
+```
+
+Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do repositório para o diretório de aplicativos desenvolvidos para Cockpit:
+```bash
+cp -r guiptables/ /usr/share/cockpit/
+```
+#### :warning: Cuidado!
+O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando uma nova versão.
+
+### Acessando a interface
+Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
+
+Assegure-se de que você está logado como root ou tenha privilégio de `sudo`.
+
+Se o seu usuário não for root, será necessário entrar no modo de Acesso Administrativo do Cockpit.
+
+## 2. Instalando o _Iptables_ via Cockpit
+
+Soaria incomum, mas caso o Iptables não esteja instalado, você poderia fazê-lo via Cockpit ao executar o _guiptables_ pela primeira vez:
+
+![image](https://user-images.githubusercontent.com/40267373/111898685-61ca0b00-8a06-11eb-9136-0f0be660babe.png)
+
+Após a instalação você será solicitado para recarregar a página. 
+
+Nota: isso não funcionará se você não possuir o **yum** instalado.
+
+## 3. Listando as regras
+
+A interface básica do _guiptables_ é mostrar as regras aplicadas nas tabelas do firewall.
+
+![image](https://user-images.githubusercontent.com/40267373/111898858-575c4100-8a07-11eb-92c3-d510056f3ec6.png)
+
+Cada regra aplicada aparecerá em sua respectiva tabela, numa linha com um conjunto de informações:
+
+- Quantidade de pacotes trafegados
+- Porção de dados trafegados
+- Cadeia em que pertence (chain)
+- Ação que desempenha (job/action/target)
+- Os protocolos que se aplicam
+- Opções avançadas
+- Interface de entrada
+- Interface de saída
+- Endereço de entrada
+- Endereço de saída
+
+
+**Todas as regras mostradas são recuperadas da memória do sistema. Isso significa que regras aplicadas fora do _guiptables_ também serão exibidas.**
+
+Por padrão, são exibidas todas as regras de uma tabela **(Show all)**, mas é possível filtrar pela **cadeia (chain)**, usando o dropdown no topo da tabela de maneira que mostre como o Iptables exibiria em linha de comando.
+
+## 4. Adicionando uma regra
+  ### Nova regra
+  Para criar uma nova regra, primeiro é preciso escolher uma das cadeias disponíveis para a tabela no dropdown. Em seguida, clicar no botão azul **➕ Add rule**.
+  Uma janela será aberta com as opções disponíveis para que sua regra seja criada: 
+  
+  ![image](https://user-images.githubusercontent.com/40267373/109742540-fed71800-7bad-11eb-9571-b514ca7e001f.png)
+  
+  Ao clicar em aplicar, uma nova regra será adicionada no fim da tabela.
+  Uma mensagem de erro será disparada, caso sejam aplicadas opções inválidas para a regra.
+  
+  ### Inserir nova regra em uma posição
+  Como a ordem das regras é importante, você pode aplicar uma regra em uma ordem especifica.
+  Para isso, escolha uma cadeia no dropdown, em seguida, clique no botão menor  **➕ Add rule** à esquerda de uma das regras da lista.
+  
+  Dessa forma você aplicaria uma nova regra sobre a regra escolhida.
+  
+  Ou seja, a nova regra ocupará a posição da regra escolhida. 
+  
+  A regra escolhida ficará um posição adiante, abaixo da nova regra.
+    
+ ## 5. Excluindo regras
+ Para excluir uma regra, basta clicar no **botão de lixeira 🗑️** em vermelho na lista de regras, à direita.
+ 
+ Você pode optar também por excluir TODAS as regras de TODAS as cadeias de uma tabela de uma vez. Basta clicar no botão **Flush Table 🗑️** acima da tabela desejada.
+ 
+ ## 6. Salvando e carregando o estado das tabelas
+ 
+ ### Criando um backup
+ Você pode salvar o estado das tabelas em um arquivo de backup. 
+ 
+ Essa opção usa internamente o comando **iptables-save**.
+ 
+ Para  manualmente gravar o conteúdo atual das tabelas do serviço Iptables, basta ir nas **configurações** clicando no **botão de engrenagem ⚙️ azul**, no topo da página.
+ 
+ Você pode especificar um caminho para salvar ou deixar o padrão. Em seguida, clique em **Save current state**.
+ 
+![image](https://user-images.githubusercontent.com/40267373/111886608-be4d0c00-89ad-11eb-8d3c-d96d2fb936eb.png)
+
+
+**Não confundir com o botão Save no canto inferior.**
+
+O botão **Save** guardará as alterações feitas nessa tela de configuração, como o caminho de logs e a opção de auto-salvar.  
+
+### A função auto-salvar
+Você pode optar por auto-salvar o estado das tabelas no arquivo especificado, toda vez que uma regra for inserida.
+Lembre-se que o arquivo não guardará histórico, será sempre **sobrescrito**.
+
+### Restaurando um backup
+Para restaurar um arquivo de backup, basta especifica-lo no mesmo campo e clicar no botão **Restore from this**.
+Após isso será solicitado que a página seja recarregada.
+
+ ## 7. Consultando logs
+ Você pode checar as últimas operações realizadas dentro do _**guiptables**_ clicando no **botão com ícone de jornal 📰**.
+ 
+ ### O que é salvo?
+ Registra-se log, toda vez que:
+  - uma regra for inserida ou deletada
+  - um erro ocorreu tentando inserir ou deletar uma regra
+  - uma tabela foi limpa (Flush table)
+  - ocorreu um erro ao limpar uma tabela 
+  - o Iptables foi instalado via Cockpit
+  - ocorreu um erro ao instalar o Iptables
+  - alterou-se o arquivo de configuração
+  - ocorreu um erro ao alterar o arquivo de configuração
+
+Você pode alterar o caminho em que o arquivo texto dos logs é salvo, **nas configurações ⚙️**.
 
 
 
