@@ -22,8 +22,8 @@ export function flush(table, onSuccessCallback) {
     let response = "Table flushed.";
     let success = true;
 
-    let args = ["sudo", "iptables", "-t", table, "-F"];
-    cockpit.spawn(args, { err: "out" })
+    let args = ["iptables", "-t", table, "-F"];
+    cockpit.spawn(args, { superuser: "required", err: "out" })
         .stream(res => {
             response = res;
             success = false;
@@ -57,10 +57,10 @@ export function deleteRule(ruleData) {
 
     let result = "Rule deleted", success = true;
 
-    let args = ["sudo", "iptables", "-t", ruleData.ruleTable,
+    let args = ["iptables", "-t", ruleData.ruleTable,
         "-D", ruleData.ruleChain, ruleData.ruleIndexInChain];
     
-    cockpit.spawn(args, { err: "out" })
+    cockpit.spawn(args, { superuser: "required", err: "out" })
         .stream(res => {
             widgets.errorMessage(consts.deleteRule, res)
             result = res;
@@ -82,14 +82,14 @@ export function getInterfaceNames() {
     if (interfaceNames.length > 0)
         return interfaceNames;
 
-    cockpit.spawn(["sudo", "ls", "/sys/class/net"])
+    cockpit.spawn(["ls", "/sys/class/net"], { superuser: "required" })
         .then(res => interfaceNames = res.split("\n"))
         .catch(res => widgets.errorMessage(consts.loadSystemInt, res));
 }
 
 export function readFile(fileName) {
     let response;
-    cockpit.spawn(["sudo", "cat", fileName])
+    cockpit.spawn(["cat", fileName], { superuser: "required" })
         .then(res => response = res)
         .catch(err => response = err)
 
@@ -113,7 +113,7 @@ export function filterTableByChain(table, chain) {
 }
 
 export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
-    let args = ["sudo", "iptables", "-t", ruleRecord.table];
+    let args = ["iptables", "-t", ruleRecord.table];
 
     if (ruleRecord.ruleBelow)
         args.push(...["-I", ruleRecord.chain, ruleRecord.ruleBelow]);
@@ -146,7 +146,7 @@ export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
     let gotError = false;
     let result;
 
-    cockpit.spawn(args, { err: "out" })
+    cockpit.spawn(args, { superuser: "required", err: "out" })
         .stream(
 
             res => {
@@ -181,7 +181,7 @@ export function applyRule(ruleRecord, onSuccessCallback, autoSavePath = null) {
 
 export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
     let error = false;
-    cockpit.spawn(["sudo", "iptables", "-L"], { "error": "out" })
+    cockpit.spawn(["iptables", "-L"], { superuser: "required", error: "out" })
         .catch(() => error = true)
         .always(() => {
             if (error)
@@ -194,11 +194,11 @@ export function isIptablesInstalled(onTrueCallback, onFalseCallback) {
 
 export function installIptables(openLogsCallback) {
     let error = false;
-    let command = ["sudo", "yum", "-y", "install", "iptables"];
+    let command = ["yum", "-y", "install", "iptables"];
     let msg;
 
     widgets.raiseInstallationStart();
-    cockpit.spawn(command, { "err": "message" })
+    cockpit.spawn(command, { superuser: "required", err: "message" })
         .catch((err) => {
             
             error = true;
@@ -236,7 +236,7 @@ export function loadConfigFile(configPath, onSuccessCallback) {
 
 export function runIptablesSave(path) {
 
-    cockpit.spawn(["sudo", "iptables-save"], { "err": "out" })
+    cockpit.spawn(["iptables-save"], { superuser: "required", err: "out" })
         .then((res) => {
 
             saveRulesToPath(res, path);
@@ -268,15 +268,15 @@ function saveRulesToPath(content, path) {
 
         })
         .always(() =>
-            logs.logData(["sudo", "iptables-save", path], "Save table state", success, result));
+            logs.logData(["iptables-save", path], "Save table state", success, result));
 
 }
 
 export function runIptablesRestore(path, requireRefresh) {
 
     let errorMessage;
-    let command = ["sudo", "iptables-restore", path];
-    cockpit.spawn(command, { "err": "out" })
+    let command = ["iptables-restore", path];
+    cockpit.spawn(command, { superuser: "required", err: "out" })
         .stream((res) => {
 
             errorMessage = res;
