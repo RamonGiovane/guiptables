@@ -20,7 +20,7 @@ export function logData(commandArr, operationTried, operationResult, resultMessa
 }
 
 export function writeLogData(txt) {
-    cockpit.spawn(['sudo', 'sh', '-ec', `echo "${txt}" | tee -a ${config.getConfiguration().logPath}`])
+    cockpit.spawn(['sh', '-ec', `echo "${txt}" | tee -a ${config.getConfiguration().logPath}`], { superuser: 'required' })
     .catch(err => {
         widgets.errorMessage("write log file", err)
 
@@ -29,10 +29,10 @@ export function writeLogData(txt) {
 
 export function loadLogs(){
     //create file if doesn't exist
-    cockpit.spawn(['sudo', 'sh', '-ec', `touch ${config.getConfiguration().logPath}`])
+    cockpit.spawn(['sh', '-ec', `touch ${config.getConfiguration().logPath}`], { superuser: 'required' })
     .then( () =>{
         //read file
-        cockpit.spawn(['sudo', 'sh', '-ec', `cat ${config.getConfiguration().logPath}`])
+        cockpit.spawn(['sh', '-ec', `cat ${config.getConfiguration().logPath}`], { superuser: 'required' })
         .then((res) =>{
             widgets.logModal(res.split("\n-\n"))
         })
