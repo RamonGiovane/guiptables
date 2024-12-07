@@ -38,8 +38,13 @@ After installing Cockpit and downloading the source code, simply copy the reposi
 ```bash
 cp -r guiptables/ /usr/share/cockpit/
 ```
-#### :warning: Caution!
-The above command will replace all *guiptables* files if they already exist. Make sure to back up your logs and saves if you are installing a new version.
+### :warning: Caution!
+Both installation methods listed above will replace any existing _guiptables_ files. Make sure to back up your logs and saves if you are installing a new version. See sections 6 and 7.
+
+You can also make a full backup of all files in the following way:
+```bash
+mv /usr/share/cockpit/guiptables /usr/share/cockpit/guiptables-backup 
+```
 
 ### Accessing the interface
 When entering the Cockpit, click on **Iptables UI** to access the dashboard.
@@ -182,8 +187,13 @@ Depois de instalar o Cockpit e baixar o código fonte, basta copiar a pasta do r
 ```bash
 cp -r guiptables/ /usr/share/cockpit/
 ```
-#### :warning: Cuidado!
-O comando acima irá substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando uma nova versão.
+### :warning: Cuidado!
+Ambos os metódos de instalação listados acima irão substituir todos os arquivos do *guiptables* se já existirem. Certifique-se de fazer backup dos logs e saves caso esteja instalando uma nova versão. Veja a seções 6 e 7.
+
+Você também pode fazer um backup completo de todos os arquivos, dessa maneira:
+```bash
+mv /usr/share/cockpit/guiptables /usr/share/cockpit/guiptables-backup 
+```
 
 ### Acessando a interface
 Ao entrar no Cockpit, clique em **Iptables** UI para acessar o painel.
@@ -292,6 +302,3 @@ Após isso será solicitado que a página seja recarregada.
   - ocorreu um erro ao alterar o arquivo de configuração
 
 Você pode alterar o caminho em que o arquivo texto dos logs é salvo, **nas configurações ⚙️**.
-
-
-
